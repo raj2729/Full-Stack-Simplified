@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../middlewares/generateToken");
+const nodemailer = require("nodemailer");
 
 /*
 LIST OF CONTROLLERS
@@ -28,14 +29,71 @@ const registerUser = asyncHandler(async (req, res) => {
     });
     // const userId = user._id;
     if (user) {
-      res.status(200).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isInstructor: user.isInstructor,
-        isAdmin: user.isAdmin,
-        token: generateToken(user._id),
-        message: "User Register Successful",
+      const output = `
+      '<h2>Welcome to Full Stack Simplified 👻</h2>
+    <p>You have registered successfully</p>
+    <h3>Your Account Details:</h3>
+    <ul>
+      <li>Name : ${req.body.name}</li>
+      <li>Email : ${req.body.email}</li>
+      <li>Password : ${req.body.password}</li>
+    </ul>
+    <p>Please save your account details for future references</p>
+    <p></p>
+    <p>Regards</p>
+    <p>Team Full Stack Simplified</p>
+  `;
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        // host: "smtp.ethereal.email",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: "rajsanghavi342@gmail.com", // generated ethereal user
+          pass: "Sanghavi@123", // generated ethereal password
+        },
+        // If on localhost
+        tls: {
+          rejectUnauthorized: false,
+        },
+        service: "gmail",
+      });
+
+      // send mail with defined transport object
+      let mailOptions = {
+        // from: '"Nodemailer Testing" <raj.sanghavi1@svkmmumbai.onmicrosoft.com>', // sender address
+        from: "Team Full Stack Simplified",
+        to: `${user.email}`, // list of receivers
+        subject: "Registration Successful ✔", // Subject line
+        // text: "Hello world?", // plain text body
+        // html: "<b>Hello world?</b>", // html body
+        html: output,
+        // attachments: [
+        //   {
+        //     path: "/home/ubuntu/MYFOLDER/Cloned/E-Commerce/frontend/public/images/alexa.jpg",
+        //   },
+        // ],
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          res.json(error);
+        } else {
+          console.log("Message sent: %s", info.messageId);
+          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+          res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isInstructor: user.isInstructor,
+            isAdmin: user.isAdmin,
+            token: generateToken(user._id),
+            message: "User Register Successful",
+            emailMessage: "Email Sent",
+          });
+          // res.json(req.body);
+          // res.json({ msg: "Email sent" });
+        }
       });
     } else {
       res.status(404);
