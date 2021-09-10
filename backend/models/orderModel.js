@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema(
   {
-    user_id: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
-    course_id: {
+    courseId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Course",
@@ -16,11 +16,11 @@ const orderSchema = mongoose.Schema(
       type: Date,
       required: true,
     },
-    payment_id: {
+    paymentId: {
         type: String,
         required: true,
     },
-    payment_result: {
+    paymentResult: {
         type: Boolean,
         required: true,
     }
