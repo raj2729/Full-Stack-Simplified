@@ -1,6 +1,13 @@
 const express = require("express");
 
-const { registerUser, userLogin } = require("../controllers/userController");
+const {
+  registerUser,
+  userLogin,
+  getUserDetails,
+  updateUserDetails,
+} = require("../controllers/userController");
+
+const { protect } = require("../middlewares/protectedRoutes");
 
 const router = express.Router();
 
@@ -9,5 +16,11 @@ router.route("/userRegister").post(registerUser);
 
 // Post user auth
 router.route("/userLogin").post(userLogin);
+
+// User gets his/her own details - Only logged in user
+router.route("/userDetails").get(protect, getUserDetails);
+
+// User updates his/her own details - Only logged in user
+router.route("/userUpdate").put(protect, updateUserDetails);
 
 module.exports = router;
