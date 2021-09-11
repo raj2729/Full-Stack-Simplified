@@ -12,6 +12,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 // } from "./reducers/productReducer";
 
 import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
+import { oneCourseDetailsReducer } from "./reducers/courseReducer";
 
 // import { adminLoginReducer, adminViewOrders } from "./reducers/adminReducer";
 
@@ -44,13 +45,13 @@ const reducer = combineReducers({
   // Anytime if u want to access productList it can be accessed using this
   //  It is present inside state and is used using useSelector
   //   productList: productListReducer,
-  //   productDetails: productDetailsReducer,
+
   //   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  courseDetails: oneCourseDetailsReducer,
   //   adminLogin: adminLoginReducer,
   //   orderListAll: adminViewOrders,
-  //   userRegister: userRegisterReducer,
   //   userDetails: userDetailsReducer,
   //   userUpdateProfile: userUpdateProfileReducer,
   //   orderCreate: orderCreateReducer,

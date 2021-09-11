@@ -133,6 +133,22 @@ const getAllDesigningCourses = asyncHandler(async (req, res) => {
   }
 });
 
+// Get details of course by ID
+const getCourseById = asyncHandler(async (req, res) => {
+  const course = await Course.findById(req.params.id);
+  if (course) {
+    res.status(200).json({
+      success: true,
+      data: course,
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: "No course found",
+    });
+  }
+});
+
 module.exports = {
   createCourse,
   getAllCourses,
@@ -141,4 +157,5 @@ module.exports = {
   getAllDatabaseCourses,
   getAllFullstackCourses,
   getAllDesigningCourses,
+  getCourseById,
 };

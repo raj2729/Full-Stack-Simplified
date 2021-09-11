@@ -63,14 +63,14 @@ function SignUp({ history }) {
 
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userRegisterInfo } = userRegister;
 
   useEffect(() => {
-    if (userInfo) {
-      history.push("/");
+    if (userRegisterInfo) {
+      history.push("/signin");
     }
-  }, [userInfo, history]);
+  }, [userRegisterInfo, history]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -139,7 +139,7 @@ function SignUp({ history }) {
             /> */}
               <Grid item>
                 Already a user?&nbsp;
-                <Link to={"/"}>Sign In</Link>
+                <Link to={"/signin"}>Sign In</Link>
                 {/* <Link href="#" variant="body2">
                   
                 </Link> */}
