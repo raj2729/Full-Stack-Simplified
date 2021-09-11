@@ -7,6 +7,7 @@ LIST OF CONTROLLERS
 2. Get all orders
 3. Get all courses of a Student
 4. Get all students enrolled in a course
+5. Count of students enrolled in a particular course
 */
 
 // 1. Create a new order
@@ -75,9 +76,19 @@ const createOrder = asyncHandler(async (req, res) => {
     })
   })
 
+  const countOfUsersEnrolledInCourse = asyncHandler(async (req,res) => {
+    const {courseId} = req.body 
+    const count = await Order.countDocuments({courseId});
+    res.status(200).json({
+      success: true,
+      data: count
+    })
+  })
+
 module.exports = {
   createOrder,
   getAllOrders,
   getAllCoursesOfUser,
-  getAllUsersEnrolledInCourse
+  getAllUsersEnrolledInCourse,
+  countOfUsersEnrolledInCourse
 };
