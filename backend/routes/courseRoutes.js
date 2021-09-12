@@ -8,13 +8,14 @@ const {
   getAllDatabaseCourses,
   getAllFullstackCourses,
   getAllDesigningCourses,
+  getCourseById,
 } = require("../controllers/courseControllers");
 
 const { instructorProtect } = require("../middlewares/protectedRoutes");
 
 const router = express.Router();
 
-// Create new course - Oly for instructors
+// Create new course - Only for instructors
 router.route("/createCourse").post(instructorProtect, createCourse);
 
 // Get all courses
@@ -34,5 +35,8 @@ router.route("/allFullstackCourses").get(getAllFullstackCourses);
 
 // Get all Designing courses
 router.route("/allDesigningCourses").get(getAllDesigningCourses);
+
+// Get a particul;ar course by id
+router.route("/oneCourse/:id").get(getCourseById);
 
 module.exports = router;

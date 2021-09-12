@@ -82,15 +82,20 @@ const registerUser = asyncHandler(async (req, res) => {
           console.log("Message sent: %s", info.messageId);
           console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
           res.status(200).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isInstructor: user.isInstructor,
-            isAdmin: user.isAdmin,
-            token: generateToken(user._id),
-            message: "User Register Successful",
-            emailMessage: "Email Sent",
+            success: true,
+            emailSuccess: true,
+            data: user,
           });
+          // res.status(200).json({
+          //   _id: user._id,
+          //   name: user.name,
+          //   email: user.email,
+          //   isInstructor: user.isInstructor,
+          //   isAdmin: user.isAdmin,
+          //   token: generateToken(user._id),
+          //   message: "User Register Successful",
+          //   emailMessage: "Email Sent",
+          // });
           // res.json(req.body);
           // res.json({ msg: "Email sent" });
         }
@@ -110,13 +115,9 @@ const userLogin = asyncHandler(async (req, res) => {
 
   if (user && (await user.matchPassword(password))) {
     res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isInstructor: user.isInstructor,
-      isAdmin: user.isAdmin,
+      success: true,
+      data: user,
       token: generateToken(user._id),
-      message: "User Login Successful",
     });
   } else {
     res.status(404);
@@ -129,11 +130,8 @@ const getUserDetails = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
     res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isInstructor: user.isInstructor,
-      isAdmin: user.isAdmin,
+      success: true,
+      data: user,
     });
   } else {
     res.status(404);
@@ -157,13 +155,8 @@ const updateUserDetails = asyncHandler(async (req, res) => {
     }
     const updatedUser = await user.save();
     res.status(200).json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isInstructor: updatedUser.isInstructor,
-      isAdmin: updatedUser.isAdmin,
-      token: generateToken(updatedUser._id),
-      message: "User details updated successfully",
+      success: true,
+      data: updatedUser,
     });
   } else {
     res.status(404);
