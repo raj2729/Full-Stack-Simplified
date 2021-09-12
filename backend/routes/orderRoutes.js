@@ -8,24 +8,25 @@ const {
     countOfUsersEnrolledInCourse
 } = require("../controllers/orderControllers");
 
+const { protect } = require("../middlewares/protectedRoutes");
 const { instructorProtect } = require("../middlewares/protectedRoutes");
 const { adminProtect } = require("../middlewares/protectedRoutes");
 
 const router = express.Router();
 
 // Create new order
-router.route("/createOrder").post(createOrder);
+router.route("/createOrder").post(protect, createOrder);
 
 // Get all orders - only admin
 router.route("/getAllOrders").get(adminProtect,getAllOrders);
 
 // Get all courses of a particular user
-router.route("/getAllCoursesOfUser").post(getAllCoursesOfUser);
+router.route("/getAllCoursesOfUser/:userId").get(getAllCoursesOfUser);
 
 // Get all Users Enrolled in a course - for instructor
-router.route("/getAllUsersEnrolledInCourse").post(instructorProtect,getAllUsersEnrolledInCourse);
+router.route("/getAllUsersEnrolledInCourse/:courseId").get(instructorProtect,getAllUsersEnrolledInCourse);
 
-// Get Count of users in a course - for instructor
-router.route("/countOfUsersEnrolledInCourse").post(countOfUsersEnrolledInCourse);
+// Get Count of users in a course 
+router.route("/countOfUsersEnrolledInCourse/:courseId").get(countOfUsersEnrolledInCourse);
 
 module.exports = router;

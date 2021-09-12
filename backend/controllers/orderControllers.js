@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
+const Course = require("../models/courseModel");
 const Order = require("../models/orderModel");
+const User = require("../models/userModel");
 
 /*
 LIST OF CONTROLLERS
@@ -14,28 +16,34 @@ LIST OF CONTROLLERS
 const createOrder = asyncHandler(async (req, res) => {
 
     const {
-        userId,
-        courseId,
         date,
         paymentId,
-        paymentResult
+        courseId
     } = req.body;
     
-    let enrollment = await Order.find({userId, courseId});
-
-    if(enrollment) {
+    const enrollment = await Order.find({userId:req.user._id, courseId});
+    
+    if(enrollment.length>0) {
       return res.status(400).json({
         success: false,
         error: "User has already taken the course"
       })
     }
 
-    let newOrder = new Order({
-        userId,
+    const course = await Course.find({courseId})
+
+    if(!course) {
+      return res.status(400).json({
+        success: false,
+        message: "No such user or course found"
+      })
+    }
+
+    const newOrder = new Order({
+        userId: req.user._id,
         courseId,
-        date,
         paymentId,
-        paymentResult
+        date
       });
   
       await newOrder.save();
@@ -47,9 +55,9 @@ const createOrder = asyncHandler(async (req, res) => {
       
   });
 
-// 2. Get all orders
+// 2. Get all orders - Only Admin
   const getAllOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.find({});
+    const orders = await Order.find({}).populate('userId courseId')
     res.status(200).json({
       success: true,
       data: orders
@@ -58,26 +66,27 @@ const createOrder = asyncHandler(async (req, res) => {
 
 // 3. Get all courses of a particular user
   const getAllCoursesOfUser = asyncHandler(async (req, res) => {
-    const {userId} = req.body 
-    const orders = await Order.find({userId});
+    const {userId} = req.params 
+    const orders = await Order.find({userId}).populate('courseId');
     res.status(200).json({
       success: true,
       data: orders
     })
   });
 
-// 4. Get All Users Enrolled in a course
+  // 4. Get All Users Enrolled in a course
   const getAllUsersEnrolledInCourse = asyncHandler(async (req,res) => {
-    const {courseId} = req.body 
-    const orders = await Order.find({courseId});
+    const {courseId} = req.params
+    const orders = await Order.find({courseId}).populate('userId');
     res.status(200).json({
       success: true,
       data: orders
     })
   })
 
+  // 5. get count of users enrolled in a course
   const countOfUsersEnrolledInCourse = asyncHandler(async (req,res) => {
-    const {courseId} = req.body 
+    const {courseId} = req.params 
     const count = await Order.countDocuments({courseId});
     res.status(200).json({
       success: true,

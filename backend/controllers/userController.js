@@ -49,8 +49,8 @@ const registerUser = asyncHandler(async (req, res) => {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-          user: "rajsanghavi342@gmail.com", // generated ethereal user
-          pass: "Sanghavi@123", // generated ethereal password
+          user: `${process.env.FSS_EMAIL}`, // generated ethereal user
+          pass: `${process.env.FSS_PASSWORD}`, // generated ethereal password
         },
         // If on localhost
         tls: {

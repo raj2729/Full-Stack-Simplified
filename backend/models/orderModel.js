@@ -19,10 +19,6 @@ const orderSchema = mongoose.Schema(
     paymentId: {
         type: String,
         required: true,
-    },
-    paymentResult: {
-        type: Boolean,
-        required: true,
     }
   },
   {
