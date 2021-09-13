@@ -1,39 +1,21 @@
 import React from "react";
-// import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-// import clsx from "clsx";
-// import Drawer from "@material-ui/core/Drawer";
-// import Divider from "@material-ui/core/Divider";
-// import List from "@material-ui/core/List";
-// import ListItem from "@material-ui/core/ListItem";
-// import ListItemIcon from "@material-ui/core/ListItemIcon";
-// import ListItemText from "@material-ui/core/ListItemText";
-// import CastForEducationIcon from "@material-ui/icons/CastForEducation";
-// import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-// import HomeIcon from "@material-ui/icons/Home";
-// import AccountCircle from "@material-ui/icons/AccountCircle";
-// import IconButton from "@material-ui/core/IconButton";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
-// import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-// import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-// import MenuIcon from "@material-ui/icons/Menu";
-// import Toolbar from "@material-ui/core/Toolbar";
-// import Menu from "@material-ui/core/Menu";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
-// import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
-import cover from "../assets/Cover.jpg";
 import { createTheme, ThemeProvider } from "@material-ui/core";
 
-// Importing Header
+// Cover photo
+import cover from "../assets/Cover.jpg";
+
+// Importing Header, Footer and Copyright
 import Header from "./Header";
 import Copyright from "./Copyright";
 import Footer from "./Footer";
@@ -52,19 +34,6 @@ const homePageTheme = createTheme({
     },
   },
 });
-
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {"Copyright © "}
-//       <Link color="inherit" href="https://material-ui.com/">
-//         Your Website
-//       </Link>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </Typography>
-//   );
-// }
 
 const drawerWidth = 240;
 
@@ -174,27 +143,6 @@ const courses = [
 
 function Home() {
   const classes = useStyles();
-  // const theme = useTheme();
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  // const open = Boolean(anchorEl);
-  // const logined = false;
-  // const [openslider, setOpenslider] = React.useState(false);
-
-  // const handleDrawerOpen = () => {
-  //   setOpenslider(true);
-  // };
-
-  // const handleDrawerClose = () => {
-  //   setOpenslider(false);
-  // };
-
-  // const handleMenu = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
 
   return (
     <ThemeProvider theme={homePageTheme}>
@@ -202,123 +150,6 @@ function Home() {
         <CssBaseline />
         {/* Header */}
         <Header />
-        {/* <AppBar
-          color="secondary"
-          position="fixed"
-          className={clsx(classes.appBar, {
-            [classes.appBarShift]: openslider,
-          })}
-        >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              className={clsx(classes.menuButton, openslider && classes.hide)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title} noWrap>
-              Full Stack Simplified
-            </Typography>
-            {logined ? (
-              <div>
-                <IconButton
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={open}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
-                </Menu>
-              </div>
-            ) : (
-              <div>
-                <Button variant="outlined" color="primary">
-                  Sign Up
-                </Button>
-                &nbsp;
-                <Button variant="contained" color="primary">
-                  Log In
-                </Button>
-              </div>
-            )}
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="left"
-          open={openslider}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </div>
-          <Divider />
-          <List>
-            <ListItem button key="Home">
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItem>
-          </List>
-          <List>
-            <ListItem button key="My Courses">
-              <ListItemIcon>
-                <CastForEducationIcon />
-              </ListItemIcon>
-              <ListItemText primary="My Courses" />
-            </ListItem>
-          </List>
-          <List>
-            <ListItem button key="Profile">
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </ListItem>
-          </List>
-          <Divider />
-        </Drawer>
-        <div>
-          <Button variant="outlined" color="primary">
-            Sign Up
-          </Button>
-          &nbsp;
-          <Button variant="contained" color="primary">
-            Log In
-          </Button>
-        </div> */}
         {/* Header */}
         <main>
           <div className={classes.heroContent}>
@@ -381,25 +212,9 @@ function Home() {
           </Container>
         </main>
         <footer className={classes.footer}>
-          {/*}
-          <Typography
-            variant="h6"
-            align="center"
-            color="textSecondary"
-            gutterBottom
-          >
-            Footer
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            color="textSecondary"
-            component="p"
-          >
-            Something here to give the footer a purpose!
-          </Typography>
-          {/* <Copyright /> */}
+          {/* Footer */}
           <Footer />
+          {/* Copyright */}
           <Copyright />
         </footer>
       </React.Fragment>
