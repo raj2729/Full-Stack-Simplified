@@ -21,15 +21,127 @@ import Card from "@material-ui/core/Card";
 import { oneCourseDetails } from "../actions/courseActions";
 // Loader
 import { CircularProgress } from "@material-ui/core";
+import axios from "axios";
 
-function CoursePage({ history, match }) {
+const loadRazorPay = async () => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+
+    // script.onload = displayRazorPay;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+};
+
+function CoursePage({ match }) {
   const dispatch = useDispatch();
   const courseDetails = useSelector((state) => state.courseDetails);
   const { loading, error, course } = courseDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const bearerToken = localStorage.getItem("token");
+
+  // to handle headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${bearerToken}`,
+    },
+  };
+
   useEffect(() => {
     dispatch(oneCourseDetails(match.params.id));
-  }, [dispatch, match, history, course]);
+  }, [dispatch, match]);
+
+  const handleRazorpayResponse = async (
+    razorpay_payment_id,
+    razorpay_order_id,
+    razorpay_signature
+  ) => {
+    const orderData = await axios.post(
+      "/order/createOrder",
+      {
+        date: Date.now(),
+        razorpay_payment_id,
+        razorpay_order_id,
+        razorpay_signature,
+        courseId: course.data._id,
+      },
+      config
+    );
+    if (orderData.data.success === true) {
+      alert("Course enrolled successfully");
+    } else {
+      alert("Error in enrolling course");
+    }
+  };
+
+  const displayRazorPay = async () => {
+    const res = await loadRazorPay();
+
+    if (!res) {
+      alert("Razorpay SDK Failed. Please check your connection.");
+      return;
+    }
+
+    const { data } = await axios.post("/course/razorpay");
+
+    // console.log(data);
+
+    const options = {
+      key: "rzp_test_tOsI14GHZSP3U8", // Enter the Key ID generated from the Dashboard
+      // amount: "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      // currency: "INR",
+      amount: data.amount,
+      currency: data.currency,
+      order_id: data.id,
+      name: "Full Stack Simplified",
+      description: "Test Transaction",
+      // image: "https://example.com/your_logo",
+      // order_id: "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: function (response) {
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+        handleRazorpayResponse(
+          response.razorpay_payment_id,
+          response.razorpay_order_id,
+          response.razorpay_signature
+        );
+      },
+      prefill: {
+        // name: "Gaurav Kumar",
+        name: userInfo.data.name,
+        // email: "gaurav.kumar@example.com",
+        email: userInfo.data.email,
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#DC143C",
+      },
+    };
+    var paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+    // rzp1.on("payment.failed", function (response) {
+    //   alert(response.error.code);
+    //   alert(response.error.description);
+    //   alert(response.error.source);
+    //   alert(response.error.step);
+    //   alert(response.error.reason);
+    //   alert(response.error.metadata.order_id);
+    //   alert(response.error.metadata.payment_id);
+    // });
+  };
 
   return loading === false ? (
     <div className="App">
@@ -48,7 +160,11 @@ function CoursePage({ history, match }) {
         <br />
 
         <span className="big-btn">
-          <Button className="btnbtn" variant="contained">
+          <Button
+            className="btnbtn"
+            variant="contained"
+            onClick={displayRazorPay}
+          >
             <span className="btn-text">
               Enroll Now
               <br />
