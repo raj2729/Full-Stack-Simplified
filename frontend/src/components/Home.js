@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -19,6 +19,18 @@ import cover from "../assets/Cover.jpg";
 import Header from "./Header";
 import Copyright from "./Copyright";
 import Footer from "./Footer";
+
+import { Link } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  backendCourseListAction,
+  databaseCourseListAction,
+  designingCourseListAction,
+  frontendCourseListAction,
+  fullstackCourseListAction,
+  otherCourseListAction,
+} from "../actions/courseActions";
 
 const homePageTheme = createTheme({
   palette: {
@@ -135,14 +147,66 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const courses = [
-  { title: "Frontend", data: [1, 2, 3] },
-  { title: "Backend", data: [1, 2, 3, 4, 5] },
-  { title: "Design", data: [1, 2, 3, 4] },
-];
-
-function Home() {
+function Home({ history }) {
   const classes = useStyles();
+
+  const frontendCourses = useSelector((state) => state.frontendCourses);
+  const {
+    loading: frontendLoading,
+    error: frontendError,
+    frontendCourseList,
+  } = frontendCourses;
+  const backendCourses = useSelector((state) => state.backendCourses);
+  const {
+    loading: backendLoading,
+    error: backendError,
+    backendCourseList,
+  } = backendCourses;
+  const designingCourses = useSelector((state) => state.designingCourses);
+  const {
+    loading: designingLoading,
+    error: designingError,
+    designingCourseList,
+  } = designingCourses;
+  const databaseCourses = useSelector((state) => state.databaseCourses);
+  const {
+    loading: databaseLoading,
+    error: databaseError,
+    databaseCourseList,
+  } = databaseCourses;
+  const fullstackCourses = useSelector((state) => state.fullstackCourses);
+  const {
+    loading: fullstackLoading,
+    error: fullstackError,
+    fullstackCourseList,
+  } = fullstackCourses;
+  const otherCourses = useSelector((state) => state.otherCourses);
+  const {
+    loading: otherLoading,
+    error: otherError,
+    otherCourseList,
+  } = otherCourses;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(frontendCourseListAction());
+    dispatch(backendCourseListAction());
+    dispatch(designingCourseListAction());
+    dispatch(databaseCourseListAction());
+    dispatch(fullstackCourseListAction());
+    dispatch(otherCourseListAction());
+  }, [dispatch, history]);
+
+  let courses = [
+    // { title: "Frontend", data: [1, 2, 3] },
+    { title: "Frontend Courses", data: frontendCourseList },
+    { title: "Backend Courses", data: backendCourseList },
+    { title: "Designing Courses", data: designingCourseList },
+    { title: "Database Courses", data: databaseCourseList },
+    { title: "Fullstack Courses", data: fullstackCourseList },
+    { title: "Other Courses", data: otherCourseList },
+  ];
 
   return (
     <ThemeProvider theme={homePageTheme}>
@@ -170,37 +234,48 @@ function Home() {
               </Grid>
             </Container>
           </div>
+
+          {/* Fetching courses */}
           <Container className={classes.cardGrid} maxWidth="xl">
             {courses.map((course) => (
               <div>
                 <br />
                 <Typography className={classes.heading} gutterBottom>
-                  {course["title"]}
+                  {course.title}
                 </Typography>
                 <br />
                 <Grid container spacing={4}>
-                  {course["data"].map((card) => (
-                    <Grid item key={card} xs={12} sm={6} md={3}>
+                  {course.data.map((particularCourse, index) => (
+                    <Grid item key={index} xs={12} sm={6} md={3}>
                       <Card className={classes.card}>
                         <CardMedia
                           className={classes.cardMedia}
-                          image="https://source.unsplash.com/random"
+                          // image="https://source.unsplash.com/random"
+                          // image="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210203170945/HTML-Tutorials.png"
+                          image={particularCourse.image}
                           title="Image title"
                         />
                         <CardContent className={classes.cardContent}>
                           <Typography gutterBottom variant="h5" component="h2">
-                            Heading
+                            {/* Heading */}
+                            {particularCourse.name}
                           </Typography>
                           <Typography>
-                            This is a media card. You can use this section to
-                            describe the content.
+                            {particularCourse.description}
+                            {/* This is a media card. You can use this section to
+                            describe the content. */}
                           </Typography>
                         </CardContent>
                         <CardActions>
-                          <Button variant="contained" color="primary">
-                            View Course
-                            <ArrowRightAltIcon />
-                          </Button>
+                          <Link
+                            to={`/course/${particularCourse._id}`}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Button variant="contained" color="primary">
+                              View Course
+                              <ArrowRightAltIcon />
+                            </Button>
+                          </Link>
                         </CardActions>
                       </Card>
                     </Grid>

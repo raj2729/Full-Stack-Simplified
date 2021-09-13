@@ -20,6 +20,7 @@ LIST OF CONTROLLERS
 7. Get all designing courses - for every user
 8. Get Details of course by ID
 9. Pay using Razorpay
+10. Get details of all Other courses
 */
 
 // Create a new course
@@ -143,6 +144,18 @@ const getAllDesigningCourses = asyncHandler(async (req, res) => {
   }
 });
 
+// Get details of all Other courses
+const getAllOtherCourses = asyncHandler(async (req, res) => {
+  const courses = await Course.find({ type: "other" });
+  if (courses.length > 0) {
+    res.status(200).json(courses);
+  } else {
+    res.status(404).json({
+      message: "No Other Course found",
+    });
+  }
+});
+
 // Get details of course by ID
 const getCourseById = asyncHandler(async (req, res) => {
   const course = await Course.findById(req.params.id);
@@ -193,6 +206,7 @@ module.exports = {
   getAllDatabaseCourses,
   getAllFullstackCourses,
   getAllDesigningCourses,
+  getAllOtherCourses,
   getCourseById,
   payUsingRazorpay,
 };

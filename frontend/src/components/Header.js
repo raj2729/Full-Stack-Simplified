@@ -258,6 +258,7 @@ const Header = () => {
           )}
         </Toolbar>
       </AppBar>
+
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -290,60 +291,26 @@ const Header = () => {
             </ListItem>
           </List>
         </Link>
-        {userInfo ? (
-          <List>
-            <ListItem button key="My Courses">
-              <ListItemIcon>
-                <CastForEducationIcon />
-              </ListItemIcon>
-              <ListItemText primary="My Courses" />
-            </ListItem>
-          </List>
-        ) : (
-          <List></List>
-        )}
-        {userInfo ? (
-          <List>
-            <ListItem button key="Profile">
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </ListItem>
-            <Divider />
-            <Divider />
-          </List>
-        ) : (
-          <List
-            style={{
-              // marginTop: `auto`,
-              // marginBottom: "auto",
-              marginLeft: "auto",
-              marginRight: "auto",
-              // margin: "auto",
-            }}
-          >
-            <ListItem>
-              <Link
-                to={"/signup"}
-                style={{ textDecoration: "none", color: "white" }}
-              >
-                <Button variant="contained" color="primary">
-                  Sign Up
-                </Button>
-              </Link>
-              &nbsp;&nbsp;&nbsp;
-              <Link
-                to={"/signup"}
-                style={{ textDecoration: "none", color: "white" }}
-              >
-                <Button variant="contained" color="primary">
-                  Sign Up
-                </Button>
-              </Link>
-            </ListItem>
-          </List>
-        )}
+
+        <List>
+          <ListItem button disabled={userInfo === null} key="My Courses">
+            <ListItemIcon>
+              <CastForEducationIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Courses" />
+          </ListItem>
+        </List>
+
+        <List>
+          <ListItem button disabled={userInfo === null} key="Profile">
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </ListItem>
+          <Divider />
+          <Divider />
+        </List>
       </Drawer>
       {/* <div>
         <Button variant="outlined" color="primary">

@@ -19,7 +19,7 @@ import { login } from "../actions/userActions";
 
 import { createTheme, ThemeProvider } from "@material-ui/core";
 
-// Importing Header, Footer and Copyright
+// Importing Header
 import Header from "./Header";
 
 const homePageTheme = createTheme({
