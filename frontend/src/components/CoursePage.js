@@ -18,6 +18,13 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Card from "@material-ui/core/Card";
 
+//
+import quiz from "../assets/quiz.png";
+import Carousel from "react-material-ui-carousel";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { Link } from "react-router-dom";
+//
+
 import { oneCourseDetails } from "../actions/courseActions";
 // Loader
 import { CircularProgress } from "@material-ui/core";
@@ -273,7 +280,32 @@ function CoursePage({ match }) {
             </Grid>
           </Grid>
         </div>
+
         <br />
+
+        <div style={{ padding: "80px 0px" }} className="teacher-div">
+          <h1>Meet your Teacher</h1>
+          <Grid>
+            <Grid xs={12} sm={12}>
+              <img
+                src="https://cdn.shopify.com/s/files/1/0045/5104/9304/t/27/assets/AC_ECOM_SITE_2020_REFRESH_1_INDEX_M2_THUMBS-V2-1.jpg?v=8913815134086573859"
+                alt="pic"
+                className="teacher-img"
+              />
+            </Grid>
+          </Grid>
+
+          <Grid xs={12} sm={12} style={{ padding: "30px" }}>
+            <h3>Sahil&nbsp;Raj</h3>
+            <p>
+              A&nbsp;professional teacher with 10+ years of experience in the
+              teaching field. A professional teacher with 10+ years of
+              experience in the teaching field.A professional teacher with 10+
+              years of experience in the teaching field.A professional teacher
+              with 10+ years of experience in the teaching field.
+            </p>
+          </Grid>
+        </div>
         <div style={{ paddingLeft: "10%", paddingRight: "10%" }}>
           <h1>Curriculum</h1>
           <p>✔19sections ✔ 242ectures ✔ 55h 23m total length</p>
@@ -316,6 +348,67 @@ function CoursePage({ match }) {
           <Card className="">Introduction</Card>
           </Grid>
           </Grid> */}
+        </div>
+        <br />
+        <br />
+        <br />
+        <div>
+          <Grid>
+            <Grid xs={12} lg={6}>
+              <h1>Take a Quiz and test your skills!</h1>
+              <Link to={`#`} style={{ textDecoration: "none" }}>
+                <Button
+                  disabled={userInfo === null}
+                  className="quiz-btn"
+                  variant="contained"
+                  color="primary"
+                >
+                  <span> Start Quiz </span>
+                </Button>
+              </Link>
+              {userInfo === null ? (
+                <p style={{ color: "red" }}>Login to access Quiz</p>
+              ) : (
+                <p></p>
+              )}
+            </Grid>
+            <Grid xs={12} lg={6}>
+              <img src={quiz} className="quiz-image" alt="student" />
+            </Grid>
+          </Grid>
+        </div>
+        {/* <div style={{padding: "7%", backgroundColor:"rgb(203, 203, 255)"}}>
+            <h1>Take a Quiz and test your skills!</h1>
+            <Button className="quiz-btn" variant="contained" color="primary"><span> Start Quiz </span></Button>
+            <img src={quiz} className="quiz-image" alt="student" />
+          </div> */}
+        <div style={{ padding: "5%", paddingLeft: "10%" }}>
+          <h1>Assignment Submission</h1>
+          <Link to={`#`} style={{ textDecoration: "none" }}>
+            <Button
+              disabled={userInfo === null}
+              className="upload-btn"
+              variant="contained"
+              color="primary"
+            >
+              <CloudUploadIcon className="upload-icon" />
+              <span> Upload Assignment </span>
+            </Button>
+          </Link>
+          {userInfo === null ? (
+            <p style={{ color: "red" }}>Login to submit Assignment</p>
+          ) : (
+            <p></p>
+          )}
+          <Link to={`#`} style={{ textDecoration: "none" }}>
+            <Button
+              disabled={userInfo === null}
+              className="submit-btn"
+              variant="contained"
+            >
+              <span> Submit Assignment </span>
+            </Button>
+          </Link>
         </div>
 
         <br />
@@ -390,7 +483,6 @@ function CoursePage({ match }) {
           </ul>
           <img src={student} className="student-image" alt="student" />
         </div>
-
         <div
           style={{
             paddingLeft: "10%",
@@ -483,6 +575,82 @@ function CoursePage({ match }) {
               </Typography>
             </AccordionDetails>
           </Accordion>
+        </div>
+        <div className="reviews-div">
+          <h1 style={{ paddingLeft: "10%" }}>Reviews</h1>
+          <Carousel>
+            <Card className="review-card">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0045/5104/9304/t/27/assets/AC_ECOM_SITE_2020_REFRESH_1_INDEX_M2_THUMBS-V2-1.jpg?v=8913815134086573859"
+                alt="pic"
+                className="man-img"
+              />
+              <h2 style={{ textAlign: "center" }}>Hasan Rajan</h2>
+              <p style={{ textAlign: "center", color: "blue" }}>
+                WEB DEVELOPER
+              </p>
+              <p style={{ textAlign: "center", color: "gray" }}>
+                I'm baby meggings twee health goth +1. Bicycle rights tumeric
+                chartreuse before they sold out chambray pop-up. Shaman
+                humblebrag pickled coloring book salvia hoodie, cold-pressed
+                four dollar toast everyday carry
+              </p>
+            </Card>
+
+            <Card className="review-card">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0045/5104/9304/t/27/assets/AC_ECOM_SITE_2020_REFRESH_1_INDEX_M2_THUMBS-V2-1.jpg?v=8913815134086573859"
+                alt="pic"
+                className="man-img"
+              />
+              <h2 style={{ textAlign: "center" }}>Hasan Rajan</h2>
+              <p style={{ textAlign: "center", color: "blue" }}>
+                WEB DEVELOPER
+              </p>
+              <p style={{ textAlign: "center", color: "gray" }}>
+                I'm baby meggings twee health goth +1. Bicycle rights tumeric
+                chartreuse before they sold out chambray pop-up. Shaman
+                humblebrag pickled coloring book salvia hoodie, cold-pressed
+                four dollar toast everyday carry
+              </p>
+            </Card>
+
+            <Card className="review-card">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0045/5104/9304/t/27/assets/AC_ECOM_SITE_2020_REFRESH_1_INDEX_M2_THUMBS-V2-1.jpg?v=8913815134086573859"
+                alt="pic"
+                className="man-img"
+              />
+              <h2 style={{ textAlign: "center" }}>Hasan Rajan</h2>
+              <p style={{ textAlign: "center", color: "blue" }}>
+                WEB DEVELOPER
+              </p>
+              <p style={{ textAlign: "center", color: "gray" }}>
+                I'm baby meggings twee health goth +1. Bicycle rights tumeric
+                chartreuse before they sold out chambray pop-up. Shaman
+                humblebrag pickled coloring book salvia hoodie, cold-pressed
+                four dollar toast everyday carry
+              </p>
+            </Card>
+
+            <Card className="review-card">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0045/5104/9304/t/27/assets/AC_ECOM_SITE_2020_REFRESH_1_INDEX_M2_THUMBS-V2-1.jpg?v=8913815134086573859"
+                alt="pic"
+                className="man-img"
+              />
+              <h2 style={{ textAlign: "center" }}>Hasan Rajan</h2>
+              <p style={{ textAlign: "center", color: "blue" }}>
+                WEB DEVELOPER
+              </p>
+              <p style={{ textAlign: "center", color: "gray" }}>
+                I'm baby meggings twee health goth +1. Bicycle rights tumeric
+                chartreuse before they sold out chambray pop-up. Shaman
+                humblebrag pickled coloring book salvia hoodie, cold-pressed
+                four dollar toast everyday carry
+              </p>
+            </Card>
+          </Carousel>
         </div>
       </div>
     </>
