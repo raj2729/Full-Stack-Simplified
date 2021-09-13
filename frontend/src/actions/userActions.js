@@ -3,6 +3,7 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAILS,
+  USER_LOGOUT,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAILS,
@@ -35,6 +36,14 @@ export const login = (email, password) => async (dispatch) => {
           : error.message,
     });
   }
+};
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem("token");
+  // dispatch({ type: USER_DETAILS_RESET });
+  dispatch({
+    type: USER_LOGOUT,
+  });
 };
 
 export const register = (name, email, password) => async (dispatch) => {

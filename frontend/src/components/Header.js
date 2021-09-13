@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import clsx from "clsx";
@@ -13,24 +13,29 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import HomeIcon from "@material-ui/icons/Home";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
+// import Card from "@material-ui/core/Card";
+// import CardActions from "@material-ui/core/CardActions";
+// import CardContent from "@material-ui/core/CardContent";
+// import CardMedia from "@material-ui/core/CardMedia";
+// import CssBaseline from "@material-ui/core/CssBaseline";
+// import Grid from "@material-ui/core/Grid";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Menu from "@material-ui/core/Menu";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+// import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
+// import Container from "@material-ui/core/Container";
+// import Link from "@material-ui/core/Link";
 import cover from "../assets/Cover.jpg";
+
+import { Link } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../actions/userActions";
 
 const drawerWidth = 240;
 
@@ -156,6 +161,23 @@ const Header = () => {
     setAnchorEl(null);
   };
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  const dispatch = useDispatch();
+
+  //   useEffect(() => {
+  // if (userInfo) {
+  //   history.push("/");
+  // }
+  //   }, [userInfo]);
+
+  const handleLogout = () => {
+    if (userInfo) {
+      dispatch(logout());
+    }
+  };
+
   return (
     <div>
       <AppBar
@@ -176,9 +198,11 @@ const Header = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title} noWrap>
-            Full Stack Simplified
+            <Link to={"/"} style={{ textDecoration: "none", color: "white" }}>
+              Full Stack Simplified
+            </Link>
           </Typography>
-          {logined ? (
+          {userInfo ? (
             <div>
               <IconButton
                 aria-label="account of current user"
@@ -205,18 +229,31 @@ const Header = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <Divider />
                 <MenuItem onClick={handleClose}>My account</MenuItem>
+                <Divider />
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
           ) : (
             <div>
-              <Button variant="outlined" color="primary">
-                Sign Up
-              </Button>
+              <Link
+                to={"/signup"}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <Button variant="outlined" color="primary">
+                  Sign Up
+                </Button>
+              </Link>
               &nbsp;
-              <Button variant="contained" color="primary">
-                Log In
-              </Button>
+              <Link
+                to={"/signin"}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <Button variant="contained" color="primary">
+                  Log In
+                </Button>
+              </Link>
             </div>
           )}
         </Toolbar>
@@ -240,33 +277,75 @@ const Header = () => {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          <ListItem button key="Home">
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-        </List>
-        <List>
-          <ListItem button key="My Courses">
-            <ListItemIcon>
-              <CastForEducationIcon />
-            </ListItemIcon>
-            <ListItemText primary="My Courses" />
-          </ListItem>
-        </List>
-        <List>
-          <ListItem button key="Profile">
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Profile" />
-          </ListItem>
-        </List>
-        <Divider />
+        <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
+          {/* <Button variant="contained" color="primary">
+                  Sign Up
+                </Button> */}
+          <List>
+            <ListItem button key="Home">
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
+          </List>
+        </Link>
+        {userInfo ? (
+          <List>
+            <ListItem button key="My Courses">
+              <ListItemIcon>
+                <CastForEducationIcon />
+              </ListItemIcon>
+              <ListItemText primary="My Courses" />
+            </ListItem>
+          </List>
+        ) : (
+          <List></List>
+        )}
+        {userInfo ? (
+          <List>
+            <ListItem button key="Profile">
+              <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
+            </ListItem>
+            <Divider />
+            <Divider />
+          </List>
+        ) : (
+          <List
+            style={{
+              // marginTop: `auto`,
+              // marginBottom: "auto",
+              marginLeft: "auto",
+              marginRight: "auto",
+              // margin: "auto",
+            }}
+          >
+            <ListItem>
+              <Link
+                to={"/signup"}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <Button variant="contained" color="primary">
+                  Sign Up
+                </Button>
+              </Link>
+              &nbsp;&nbsp;&nbsp;
+              <Link
+                to={"/signup"}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <Button variant="contained" color="primary">
+                  Sign Up
+                </Button>
+              </Link>
+            </ListItem>
+          </List>
+        )}
       </Drawer>
-      <div>
+      {/* <div>
         <Button variant="outlined" color="primary">
           Sign Up
         </Button>
@@ -274,7 +353,7 @@ const Header = () => {
         <Button variant="contained" color="primary">
           Log In
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
