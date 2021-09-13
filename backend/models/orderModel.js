@@ -8,18 +8,26 @@ const orderSchema = mongoose.Schema(
       ref: "User",
     },
     courseId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Course",
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Course",
     },
     date: {
       type: Date,
       required: true,
     },
-    paymentId: {
-        type: String,
-        required: true,
-    }
+    razorpay_payment_id: {
+      type: String,
+      required: true,
+    },
+    razorpay_order_id: {
+      type: String,
+      required: true,
+    },
+    razorpay_signature: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -1,5 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const Course = require("../models/courseModel");
+const Razorpay = require("razorpay");
+const shortid = require("shortid");
+const { response } = require("express");
+
+const razorpay = new Razorpay({
+  key_id: "rzp_test_tOsI14GHZSP3U8",
+  key_secret: "oytgKKbuxFUlZdx4qr4tzG4j",
+});
 
 /*
 LIST OF CONTROLLERS
@@ -10,6 +18,9 @@ LIST OF CONTROLLERS
 5. Get all database courses - for every user
 6. Get all fullstack courses - for every user
 7. Get all designing courses - for every user
+8. Get Details of course by ID
+9. Pay using Razorpay
+10. Get details of all Other courses
 */
 
 // Create a new course
@@ -133,6 +144,18 @@ const getAllDesigningCourses = asyncHandler(async (req, res) => {
   }
 });
 
+// Get details of all Other courses
+const getAllOtherCourses = asyncHandler(async (req, res) => {
+  const courses = await Course.find({ type: "other" });
+  if (courses.length > 0) {
+    res.status(200).json(courses);
+  } else {
+    res.status(404).json({
+      message: "No Other Course found",
+    });
+  }
+});
+
 // Get details of course by ID
 const getCourseById = asyncHandler(async (req, res) => {
   const course = await Course.findById(req.params.id);
@@ -149,6 +172,32 @@ const getCourseById = asyncHandler(async (req, res) => {
   }
 });
 
+// Payment gateway using Razorpay
+const payUsingRazorpay = async (req, res) => {
+  const payment_capture = 1;
+  const amount = 1499;
+  const currency = "INR";
+
+  const options = {
+    amount: amount * 100,
+    currency,
+    receipt: shortid.generate(),
+    payment_capture,
+  };
+
+  try {
+    const response = await razorpay.orders.create(options);
+    // console.log(response);
+    res.json({
+      id: response.id,
+      currency: response.currency,
+      amount: response.amount,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createCourse,
   getAllCourses,
@@ -157,5 +206,7 @@ module.exports = {
   getAllDatabaseCourses,
   getAllFullstackCourses,
   getAllDesigningCourses,
+  getAllOtherCourses,
   getCourseById,
+  payUsingRazorpay,
 };

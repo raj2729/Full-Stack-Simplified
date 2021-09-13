@@ -12,7 +12,15 @@ import { composeWithDevTools } from "redux-devtools-extension";
 // } from "./reducers/productReducer";
 
 import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
-import { oneCourseDetailsReducer } from "./reducers/courseReducer";
+import {
+  oneCourseDetailsReducer,
+  frontendCourseListReducer,
+  backendCourseListReducer,
+  designingCourseListReducer,
+  databaseCourseListReducer,
+  fullstackCourseListReducer,
+  otherCourseListReducer,
+} from "./reducers/courseReducer";
 
 // import { adminLoginReducer, adminViewOrders } from "./reducers/adminReducer";
 
@@ -50,6 +58,12 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   courseDetails: oneCourseDetailsReducer,
+  frontendCourses: frontendCourseListReducer,
+  backendCourses: backendCourseListReducer,
+  designingCourses: designingCourseListReducer,
+  databaseCourses: databaseCourseListReducer,
+  fullstackCourses: fullstackCourseListReducer,
+  otherCourses: otherCourseListReducer,
   //   adminLogin: adminLoginReducer,
   //   orderListAll: adminViewOrders,
   //   userDetails: userDetailsReducer,
