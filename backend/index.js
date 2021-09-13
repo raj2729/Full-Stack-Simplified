@@ -7,6 +7,7 @@ const connectDB = require("./config/config");
 const userRoutes = require("./routes/userRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const discussRoutes = require("./routes/discussRoutes");
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/user", userRoutes);
 app.use("/course", courseRoutes);
 app.use("/order", orderRoutes);
+app.use("/discuss", discussRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
