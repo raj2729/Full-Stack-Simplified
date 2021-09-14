@@ -28,7 +28,7 @@ const postTestimonial = asyncHandler(async (req, res) => {
     }
     if(heading==="" || description==="") {
         return res.status(400).json({
-            success:"false",
+            success: false,
             error:"Empty Feilds not allowed"
         })
     }
