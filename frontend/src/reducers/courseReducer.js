@@ -32,7 +32,7 @@ export const oneCourseDetailsReducer = (
 ) => {
   switch (action.type) {
     case ONE_COURSE_DETAILS_REQUEST:
-      return { loading: true, ...state };
+      return { ...state, loading: true };
     case ONE_COURSE_DETAILS_SUCCESS:
       return { loading: false, course: action.payload };
     case ONE_COURSE_DETAILS_FAILS:
@@ -45,7 +45,7 @@ export const oneCourseDetailsReducer = (
 export const allUserCoursesReducer = (state = { courses: [] }, action) => {
   switch (action.type) {
     case ALL_USER_COURSES_REQUEST:
-      return { loading: true, courses: [] };
+      return { ...state, loading: true, courses: [] };
     case ALL_USER_COURSES_SUCCESS:
       return { loading: false, courses: action.payload };
     case ALL_USER_COURSES_FAILS:
@@ -61,7 +61,7 @@ export const frontendCourseListReducer = (
 ) => {
   switch (action.type) {
     case FRONTEND_COURSES__LIST_REQUEST:
-      return { loading: true, frontendCourseList: [] };
+      return { ...state, loading: true, frontendCourseList: [] };
     case FRONTEND_COURSES__LIST_SUCCESS:
       return { loading: false, frontendCourseList: action.payload };
     case FRONTEND_COURSES__LIST_FAILS:
@@ -77,7 +77,7 @@ export const backendCourseListReducer = (
 ) => {
   switch (action.type) {
     case BACKEND_COURSES__LIST_REQUEST:
-      return { loading: true, backendCourseList: [] };
+      return { ...state, loading: true, backendCourseList: [] };
     case BACKEND_COURSES__LIST_SUCCESS:
       return { loading: false, backendCourseList: action.payload };
     case BACKEND_COURSES__LIST_FAILS:
@@ -93,7 +93,7 @@ export const designingCourseListReducer = (
 ) => {
   switch (action.type) {
     case DESIGNING_COURSES__LIST_REQUEST:
-      return { loading: true, designingCourseList: [] };
+      return { ...state, loading: true, designingCourseList: [] };
     case DESIGNING_COURSES__LIST_SUCCESS:
       return { loading: false, designingCourseList: action.payload };
     case DESIGNING_COURSES__LIST_FAILS:
@@ -109,7 +109,7 @@ export const databaseCourseListReducer = (
 ) => {
   switch (action.type) {
     case DATABASE_COURSES__LIST_REQUEST:
-      return { loading: true, databaseCourseList: [] };
+      return { ...state, loading: true, databaseCourseList: [] };
     case DATABASE_COURSES__LIST_SUCCESS:
       return { loading: false, databaseCourseList: action.payload };
     case DATABASE_COURSES__LIST_FAILS:
@@ -125,7 +125,7 @@ export const fullstackCourseListReducer = (
 ) => {
   switch (action.type) {
     case FULLSTACK_COURSES__LIST_REQUEST:
-      return { loading: true, fullstackCourseList: [] };
+      return { ...state, loading: true, fullstackCourseList: [] };
     case FULLSTACK_COURSES__LIST_SUCCESS:
       return { loading: false, fullstackCourseList: action.payload };
     case FULLSTACK_COURSES__LIST_FAILS:
@@ -141,7 +141,7 @@ export const otherCourseListReducer = (
 ) => {
   switch (action.type) {
     case OTHER_COURSES_LIST_REQUEST:
-      return { loading: true, otherCourseList: [] };
+      return { ...state, loading: true, otherCourseList: [] };
     case OTHER_COURSES_LIST_SUCCESS:
       return { loading: false, otherCourseList: action.payload };
     case OTHER_COURSES_LIST_FAILS:

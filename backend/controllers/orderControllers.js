@@ -10,6 +10,7 @@ LIST OF CONTROLLERS
 3. Get all courses of a Student
 4. Get all students enrolled in a course
 5. Count of students enrolled in a particular course
+6. Check if user is enrolled in the course or not
 */
 
 // 1. Create a new order
@@ -98,10 +99,28 @@ const countOfUsersEnrolledInCourse = asyncHandler(async (req, res) => {
   });
 });
 
+// 6. Check if user is enrolled in the course or not
+const checkIfUserIsEnrolledInCourse = asyncHandler(async (req, res) => {
+  const { courseId, userId } = req.body;
+
+  const order = await Order.find({ courseId, userId });
+  if (order) {
+    res.status(200).json({
+      success: true,
+      data: order,
+    });
+  } else {
+    res.status(200).json({
+      success: false,
+    });
+  }
+});
+
 module.exports = {
   createOrder,
   getAllOrders,
   getAllCoursesOfUser,
   getAllUsersEnrolledInCourse,
   countOfUsersEnrolledInCourse,
+  checkIfUserIsEnrolledInCourse,
 };

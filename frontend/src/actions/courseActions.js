@@ -46,26 +46,26 @@ export const oneCourseDetails = (id) => async (dispatch) => {
 };
 
 // AFTER ORDER MODEL
-// export const allUserCourses = () => async (dispatch) => {
-//   try {
-//     dispatch({
-//       type: ALL_USER_COURSES_REQUEST,
-//     });
-//     const { data } = await axios.get("/courses/products");
-//     dispatch({
-//       type: ALL_USER_COURSES_SUCCESS,
-//       payload: data,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: ALL_USER_COURSES_FAILS,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+export const allUserCoursesAction = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ALL_USER_COURSES_REQUEST,
+    });
+    const { data } = await axios.get(`/order/getAllCoursesOfUser/${id}`);
+    dispatch({
+      type: ALL_USER_COURSES_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ALL_USER_COURSES_FAILS,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const frontendCourseListAction = () => async (dispatch) => {
   try {

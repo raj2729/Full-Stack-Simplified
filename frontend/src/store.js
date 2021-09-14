@@ -11,7 +11,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 //   productDetailsReducer,
 // } from "./reducers/productReducer";
 
-import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
+import {
+  isUserEnrolledReducer,
+  userLoginReducer,
+  userRegisterReducer,
+} from "./reducers/userReducers";
 import {
   oneCourseDetailsReducer,
   frontendCourseListReducer,
@@ -20,7 +24,9 @@ import {
   databaseCourseListReducer,
   fullstackCourseListReducer,
   otherCourseListReducer,
+  allUserCoursesReducer,
 } from "./reducers/courseReducer";
+import { allUserCourses } from "./actions/courseActions";
 
 // import { adminLoginReducer, adminViewOrders } from "./reducers/adminReducer";
 
@@ -57,6 +63,8 @@ const reducer = combineReducers({
   //   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  isEnrolledInCourse: isUserEnrolledReducer,
+  allUserCourses: allUserCoursesReducer,
   courseDetails: oneCourseDetailsReducer,
   frontendCourses: frontendCourseListReducer,
   backendCourses: backendCourseListReducer,

@@ -24,6 +24,7 @@ import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
+  allUserCoursesAction,
   backendCourseListAction,
   databaseCourseListAction,
   designingCourseListAction,
@@ -31,6 +32,7 @@ import {
   fullstackCourseListAction,
   otherCourseListAction,
 } from "../actions/courseActions";
+import { isUserEnrolledReset } from "../actions/userActions";
 
 const homePageTheme = createTheme({
   palette: {
@@ -150,6 +152,9 @@ const useStyles = makeStyles((theme) => ({
 function Home({ history }) {
   const classes = useStyles();
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const frontendCourses = useSelector((state) => state.frontendCourses);
   const {
     loading: frontendLoading,
@@ -190,6 +195,8 @@ function Home({ history }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (userInfo) dispatch(allUserCoursesAction(userInfo.data._id));
+    dispatch(isUserEnrolledReset());
     dispatch(frontendCourseListAction());
     dispatch(backendCourseListAction());
     dispatch(designingCourseListAction());

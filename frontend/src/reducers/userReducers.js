@@ -6,6 +6,10 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAILS,
   USER_LOGOUT,
+  IS_USER_ENROLLED_REQUEST,
+  IS_USER_ENROLLED_SUCCESS,
+  IS_USER_ENROLLED_FAILS,
+  IS_USER_ENROLLED_RESET,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -31,6 +35,21 @@ export const userRegisterReducer = (state = {}, action) => {
       return { loading: false, userRegisterInfo: action.payload };
     case USER_REGISTER_FAILS:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const isUserEnrolledReducer = (state = { isEnrolled: null }, action) => {
+  switch (action.type) {
+    case IS_USER_ENROLLED_REQUEST:
+      return { ...state, loading: true };
+    case IS_USER_ENROLLED_SUCCESS:
+      return { ...state, loading: false, isEnrolled: action.payload };
+    case IS_USER_ENROLLED_FAILS:
+      return { loading: false, isEnrolled: null };
+    case IS_USER_ENROLLED_RESET:
+      return { loading: false, isEnrolled: null };
     default:
       return state;
   }
