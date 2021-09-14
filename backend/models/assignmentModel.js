@@ -19,11 +19,16 @@ const assignmentSchema = mongoose.Schema(
     },
     assignmentLink: {
       type: String,
-      required: true,
+      // required: true,
     },
     assignmentScreenshotLink: {
       type: String,
+      // required: true,
+    },
+    assignmentStatus: {
+      type: String,
       required: true,
+      default: "unsubmit",
     },
   },
   {

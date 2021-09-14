@@ -10,11 +10,16 @@ LIST OF CONTROLLERS
 
 // 1. Create a new assignment
 const createAssignment = asyncHandler(async (req, res) => {
-  const { isCertified, assignmentLink, assignmentScreenshotLink, courseId } =
-    req.body;
-  const userId = req.user._id;
+  const {
+    userId,
+    isCertified,
+    assignmentLink,
+    assignmentScreenshotLink,
+    courseId,
+  } = req.body;
+  // const userId = req.user._id;
 
-  const submitted = await Assignment.find({ userId: req.user._id, courseId });
+  const submitted = await Assignment.find({ userId, courseId });
 
   if (submitted.length > 0) {
     return res.status(400).json({

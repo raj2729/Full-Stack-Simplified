@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../App.css";
-import { Button, ButtonGroup, Grid, Paper } from "@material-ui/core";
+import { Button, ButtonGroup, Grid, Input, Paper } from "@material-ui/core";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
@@ -21,6 +21,8 @@ import Alert from "@material-ui/lab/Alert";
 import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
+
+import TextField from "@material-ui/core/TextField";
 
 //
 import quiz from "../assets/quiz.png";
@@ -43,6 +45,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // Importing Header
 import Header from "./Header";
 import { isUserEnrolled } from "../actions/userActions";
+import { createAssignment } from "../actions/assignmentActions";
 
 const homePageTheme = createTheme({
   palette: {
@@ -93,6 +96,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const useStylesTextField = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+}));
+
 const loadRazorPay = async () => {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -110,6 +122,8 @@ const loadRazorPay = async () => {
 };
 
 function CoursePage({ history, match }) {
+  const classes = useStylesTextField();
+
   const dispatch = useDispatch();
   // const [isEnrolled, setIsEnrolled] = useState(false);
   const isEnrolledInCourse = useSelector((state) => state.isEnrolledInCourse);
@@ -134,6 +148,34 @@ function CoursePage({ history, match }) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${bearerToken}`,
     },
+  };
+
+  // CLOUDINARY - UPLOAD IMAGES
+  const [imageSelected, setImageSelected] = useState("");
+  const [publicIdd, setPublicIdd] = useState("");
+  const [githubLink, setGithubLink] = useState("");
+  // CLOUDINARY - UPLOAD IMAGES
+
+  const submitAssignmentHandler = async () => {
+    // console.log(files[0]);
+    const formData = new FormData();
+    formData.append("file", imageSelected);
+    formData.append("upload_preset", "ude8cxll");
+
+    await axios
+      .post("https://api.cloudinary.com/v1_1/dizvyn9b5/image/upload", formData)
+      .then((response) => {
+        console.log(response.data.secure_url);
+        setPublicIdd(response.data.secure_url);
+        dispatch(
+          createAssignment(
+            userInfo.data._id,
+            match.params.id,
+            response.data.secure_url,
+            githubLink
+          )
+        );
+      });
   };
 
   useEffect(() => {
@@ -201,12 +243,8 @@ function CoursePage({ history, match }) {
       order_id: data.id,
       name: "Full Stack Simplified",
       description: "Test Transaction",
-      // image: "https://example.com/your_logo",
       // order_id: "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       handler: function (response) {
-        // alert(response.razorpay_payment_id);
-        // alert(response.razorpay_order_id);
-        // alert(response.razorpay_signature);
         handleRazorpayResponse(
           response.razorpay_payment_id,
           response.razorpay_order_id,
@@ -228,15 +266,6 @@ function CoursePage({ history, match }) {
     };
     var paymentObject = new window.Razorpay(options);
     paymentObject.open();
-    // rzp1.on("payment.failed", function (response) {
-    //   alert(response.error.code);
-    //   alert(response.error.description);
-    //   alert(response.error.source);
-    //   alert(response.error.step);
-    //   alert(response.error.reason);
-    //   alert(response.error.metadata.order_id);
-    //   alert(response.error.metadata.payment_id);
-    // });
   };
 
   // ALERT
@@ -419,35 +448,7 @@ function CoursePage({ history, match }) {
                 </p>
               </Grid>
             ))}
-            {/* <Grid item xs={12} sm={6} className="course-item">
-            <p className="">Introduction</p>
           </Grid>
-
-          <Grid item xs={12} sm={6} className="course-item">
-            <p className="">Introduction</p>
-          </Grid>
-          <Grid item xs={12} sm={6} className="course-item">
-            <p className="">Introduction</p>
-          </Grid>
-          <Grid item xs={12} sm={6} className="course-item">
-            <p className="">Introduction</p>
-          </Grid> */}
-          </Grid>
-          {/* <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} className="course-item">
-          <Card className="">Introduction</Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} className="course-item">
-          <Card className="">Introduction</Card>
-          </Grid>
-          <Grid item xs={12} sm={6} className="course-item">
-          <Card className="">Introduction</Card>
-          </Grid>
-          <Grid item xs={12} sm={6} className="course-item">
-          <Card className="">Introduction</Card>
-          </Grid>
-          </Grid> */}
         </div>
         <br />
         <br />
@@ -490,25 +491,65 @@ function CoursePage({ history, match }) {
           </div> */}
         <div style={{ padding: "5%", paddingLeft: "10%" }}>
           <h1>Assignment Submission</h1>
-          <Link to={`#`} style={{ textDecoration: "none" }}>
-            <Button
-              disabled={
-                userInfo === null ||
-                isUserEnrolledInCourseFromAllCourses === false
-              }
-              className="upload-btn"
-              variant="contained"
-              color="primary"
-            >
-              <CloudUploadIcon className="upload-icon" />
-              <span> Upload Assignment </span>
-            </Button>
-          </Link>
+          {/* <Link to={`#`} style={{ textDecoration: "none" }}> */}
+          <Input
+            disabled={
+              userInfo === null ||
+              isUserEnrolledInCourseFromAllCourses === false
+            }
+            onChange={(event) => {
+              setImageSelected(event.target.files[0]);
+            }}
+            className="upload-btn"
+            variant="contained"
+            color="primary"
+            type="file"
+          >
+            <CloudUploadIcon className="upload-icon" />
+            <span> Upload Assignment </span>
+          </Input>
+          {/* </Link> */}
           {userInfo === null ? (
-            <p style={{ color: "red" }}>Login to submit Assignment</p>
+            <p style={{ color: "red" }}>Login to upload Assignment</p>
           ) : isUserEnrolledInCourseFromAllCourses === false ? (
             <p style={{ color: "red" }}>
-              Enroll the course to submit Assignment
+              Enroll the course to upload Assignment
+            </p>
+          ) : (
+            <p></p>
+          )}
+          <form className={classes.root} noValidate autoComplete="off">
+            {userInfo === null ? (
+              <TextField
+                disabled
+                id="standard-disabled"
+                label="Enter Github Repository Link"
+              />
+            ) : isUserEnrolledInCourseFromAllCourses === false ? (
+              <TextField
+                disabled
+                id="standard-disabled"
+                label="Enter Github Repository Link"
+              />
+            ) : (
+              <TextField
+                required
+                id="standard-required"
+                label="Enter Github Repository Link"
+                onChange={(event) => {
+                  console.log("EVENT = " + event.target.value);
+                  setGithubLink(event.target.value);
+                }}
+              />
+            )}
+          </form>
+          {userInfo === null ? (
+            <p style={{ color: "red" }}>
+              Login to submit Github Repository Link
+            </p>
+          ) : isUserEnrolledInCourseFromAllCourses === false ? (
+            <p style={{ color: "red" }}>
+              Enroll the course to submit Github Repository Link
             </p>
           ) : (
             <p></p>
@@ -521,6 +562,7 @@ function CoursePage({ history, match }) {
               }
               className="submit-btn"
               variant="contained"
+              onClick={submitAssignmentHandler}
             >
               <span> Submit Assignment </span>
             </Button>

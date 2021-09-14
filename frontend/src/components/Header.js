@@ -232,6 +232,13 @@ const Header = () => {
                 <Divider />
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <Divider />
+                <Link
+                  to={"/assignments"}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <MenuItem>My Assignments</MenuItem>
+                </Link>
+                <Divider />
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
@@ -300,6 +307,20 @@ const Header = () => {
             <ListItemText primary="My Courses" />
           </ListItem>
         </List>
+
+        <Link
+          to={"/assignments"}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <List>
+            <ListItem button disabled={userInfo === null} key="My Assignments">
+              <ListItemIcon>
+                <CastForEducationIcon />
+              </ListItemIcon>
+              <ListItemText primary="My Assignments" />
+            </ListItem>
+          </List>
+        </Link>
 
         <List>
           <ListItem button disabled={userInfo === null} key="Profile">

@@ -10,6 +10,6 @@ const {
 const router = express.Router();
 
 // Submit new Assignment
-router.route("/submitAssignment").post(protect, createAssignment);
+router.route("/submitAssignment").post(createAssignment);
 
 module.exports = router;
