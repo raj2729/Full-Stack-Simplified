@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Discuss = require("../models/discussModel");
+const Order = require("../models/orderModel");
 
 /*
 LIST OF CONTROLLERS
@@ -17,6 +18,15 @@ LIST OF CONTROLLERS
         data: "Enter question details properly"
       })
     }
+
+    const order = await Order.find({courseId,userId:req.user._id})
+    if(!order.length) {
+      return res.status(400).json({
+        success: false,
+        error: "User not enrolled"
+      })
+    }
+
     const newQuestion = new Discuss({
       courseId,
       question,
@@ -37,13 +47,22 @@ LIST OF CONTROLLERS
 
 // 2.Answer a question - Logged in users
 const answerQuestion = asyncHandler(async (req, res) => {
-    const {id, answer} = req.body // discussId
+    const {id, answer, courseId} = req.body // discussId
     if(!id || !answer || answer==="") {
       return res.status(400).json({
         success:"false",
         error:"Empty Answer"
       })
     }
+
+    const order = await Order.find({courseId,userId:req.user._id})
+    if(!order.length) {
+      return res.status(400).json({
+        success: false,
+        error: "User not enrolled"
+      })
+    }
+
     const updated = await Discuss.findByIdAndUpdate(id,{$push:{"answers":{userId:req.user._id,answer}}},{new : true}).populate('answers.userId')
     if(!updated) {
       return res.status(400).json({
@@ -67,6 +86,15 @@ const getAllQuestionsAnswers = asyncHandler(async (req,res)=> {
       error: "No such course"
     })
   }
+
+  const order = await Order.find({courseId,userId:req.user._id})
+  if(!order.length) {
+    return res.status(400).json({
+      success: false,
+      error: "User not enrolled"
+    })
+  }
+
   const questionsAnswers = await Discuss.find({courseId}).populate('answers.userId')
   if(!questionsAnswers) {
     return res.status(400).json({
