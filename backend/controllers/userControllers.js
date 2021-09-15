@@ -115,14 +115,19 @@ const userLogin = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
-    res.status(200).json({
-      success: true,
-      data: user,
-      token: generateToken(user._id),
-    });
+    if(user.isAdmin===false && user.isInstructor===false) {
+      res.status(200).json({
+        success: true,
+        data: user,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(404);
+      throw new Error("Please visit Admin/Instructor page.");      
+    }
   } else {
     res.status(404);
-    throw new Error("Invalid email or password");
+    throw new Error("Invalid email or password.");
   }
 });
 
