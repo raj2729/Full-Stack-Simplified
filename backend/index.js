@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/config");
+const generatePDF = require("./generatePdf");
 
 // Routes
 const userRoutes = require("./routes/userRoutes");
@@ -27,8 +28,12 @@ app.use(express.json());
 
 const PORT = process.env.PORT;
 
-app.get("/", (req, res) => {
-  res.send("<h1>Welcome to Full Stack Simplified</h1>");
+app.post("/getCertificate/:name/:course", (req, res) => {
+  // res.send("<h1>Welcome to Full Stack Simplified</h1>");
+  // res.download("output.pdf");
+  console.log(req.params.name, req.params.course);
+  generatePDF(req.params.name, req.params.course);
+  res.download("output.pdf");
 });
 
 app.use("/user", userRoutes);

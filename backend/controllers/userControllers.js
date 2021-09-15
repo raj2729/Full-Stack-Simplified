@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../middlewares/generateToken");
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
 
 /*
 LIST OF CONTROLLERS
@@ -28,6 +28,7 @@ const registerUser = asyncHandler(async (req, res) => {
       isAdmin,
     });
     // const userId = user._id;
+
     if (user) {
       const output = `
       '<h2>Welcome to Full Stack Simplified 👻</h2>

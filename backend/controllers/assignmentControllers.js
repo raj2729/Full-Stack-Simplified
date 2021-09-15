@@ -78,7 +78,7 @@ const createAssignment = asyncHandler(async (req, res) => {
 // 2. Get all assignments of a user by userId
 const getAllAssignmentsOfUser = asyncHandler(async (req, res) => {
   const orders = await Assignment.find({ userId: req.params.id }).populate(
-    "courseId"
+    "courseId userId"
   );
   res.status(200).json({
     success: true,

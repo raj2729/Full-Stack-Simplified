@@ -13,9 +13,16 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 // import Button from '@material-ui/core/Button';
 // or
 import { Button } from "@material-ui/core";
+// import { generatePDF } from "../generatePdf";
 
 //PROGRESS
 import { CircularProgress } from "@material-ui/core";
+
+// import PDFLib from "pdf-lib";
+import { PDFDocument, rgb } from "pdf-lib";
+// import "./FileSaver";
+import { saveAs } from "file-saver";
+import { Fontkit } from "pdf-lib/cjs/types/fontkit";
 
 // const useStyles = makeStyles({
 
@@ -102,35 +109,6 @@ const DownloadButton = () => {
 //       <DownloadButton />
 //     </center>
 //   ),
-//   createData(
-//     <p style={{ paddingLeft: "20%" }}>Django</p>,
-//     <center>Pending</center>,
-//     <center>
-//       <DownloadButton />
-//     </center>
-//   ),
-//   createData(
-//     <p style={{ paddingLeft: "20%" }}>VueJS</p>,
-//     <center>Pending</center>,
-//     <center>
-//       <DownloadButton />
-//     </center>
-//   ),
-
-//   createData(
-//     <p style={{ paddingLeft: "20%" }}>AngularJS</p>,
-//     <center>Pending</center>,
-//     <center>
-//       <DownloadButton />
-//     </center>
-//   ),
-//   createData(
-//     <p style={{ paddingLeft: "20%" }}>Gingerbread</p>,
-//     <center>Pending</center>,
-//     <center>
-//       <DownloadButton />
-//     </center>
-//   ),
 // ];
 
 const Assignments = ({ history, match }) => {
@@ -155,6 +133,104 @@ const Assignments = ({ history, match }) => {
       });
     console.log(assignments.data);
   }, [match, history]);
+
+  // const generatePDF = async (name, course) => {
+  //   // const { PDFDocument, rgb } = PDFLib;
+
+  //   // so that we can edit it
+  //   const exBytes = await fetch("./_Certificate.pdf").then((res) => {
+  //     return res.arrayBuffer();
+  //   });
+  //   console.log(exBytes);
+
+  //   const exFont = await fetch("./Sanchez-Regular.ttf", {
+  //     header: {
+  //       "Content-Type": "application/pdf",
+  //     },
+  //   }).then((res) => {
+  //     return res.arrayBuffer();
+  //   });
+  //   console.log(exFont);
+
+  //   //   Converting bytes to a pdf doc
+  //   const pdfDoc = await PDFDocument.load(exBytes);
+
+  //   pdfDoc.registerFontkit(Fontkit);
+  //   const myFont = await pdfDoc.embedFont(exFont);
+
+  //   const pages = pdfDoc.getPages();
+  //   const firstPage = pages[0];
+
+  //   firstPage.drawText(name, {
+  //     x: 250,
+  //     y: 290,
+  //     size: 58,
+  //     color: rgb(0.9, 0.1, 0.2),
+  //   });
+
+  //   firstPage.drawText(course, {
+  //     x: 425,
+  //     y: 240,
+  //     size: 18,
+  //   });
+  //   const url1 = "./sergio.png";
+  //   const arrayBuffer1 = await fetch(url1).then((res) => res.arrayBuffer());
+  //   const sergio = await pdfDoc.embedPng(arrayBuffer1);
+
+  //   firstPage.drawImage(sergio, {
+  //     x: 220,
+  //     y: 130,
+  //     height: 60,
+  //     width: 90,
+  //   });
+
+  //   const url2 = "./raquel.png";
+  //   const arrayBuffer2 = await fetch(url2).then((res) => res.arrayBuffer());
+  //   const raquel = await pdfDoc.embedPng(arrayBuffer2);
+
+  //   firstPage.drawImage(raquel, {
+  //     x: 520,
+  //     y: 130,
+  //     height: 60,
+  //     width: 90,
+  //   });
+
+  //   const uri = await pdfDoc.saveAsBase64({ dataUri: true });
+  //   saveAs(uri, "Completion Certficate.pdf", { autoBom: true });
+
+  //   // document.querySelector("#mypdf").src = uri;
+  // };
+
+  const submitPdfButtonHandler = async (
+    e,
+    assignmentUserName,
+    assignmentCourse,
+    assignmentUserEmail
+  ) => {
+    e.preventDefault();
+    console.log(assignmentUserName, assignmentCourse, assignmentUserEmail);
+    fetch(
+      `http://localhost:8080/getCertificate/${assignmentUserName}/${assignmentCourse}`,
+      {
+        method: "POST",
+      }
+    )
+      .then((response) => {
+        // console.log(response);
+        // return response;
+        console.log(response);
+        // response.json();
+      })
+      .then((response) => {
+        // setAssignments(response);
+        // setLoaded(true);
+        // return response;
+        console.log(response);
+      });
+    // axios.post("/", { name: "Raj Sanghavi", course: "DJ SANGHVI" });
+
+    // generatePDF(assignmentUserName, assignmentCourse);
+  };
 
   return (
     <div
@@ -217,9 +293,18 @@ const Assignments = ({ history, match }) => {
                   <TableCell align="right">
                     <center>
                       <Button
+                        id="submitPdfButton"
                         disabled={row.isCertified === false}
                         variant="contained"
                         color="primary"
+                        onClick={(e) =>
+                          submitPdfButtonHandler(
+                            e,
+                            row.userId.name,
+                            row.courseId.name,
+                            row.userId.email
+                          )
+                        }
                       >
                         DOWNLOAD <GetAppIcon />
                       </Button>
