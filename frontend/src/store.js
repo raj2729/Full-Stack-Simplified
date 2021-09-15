@@ -28,6 +28,7 @@ import {
 } from "./reducers/courseReducer";
 import { allUserCourses } from "./actions/courseActions";
 import { createAssignmentReducer } from "./reducers/assignmentReducers";
+import { adminReducer } from "./reducers/adminReducers";
 
 // import { adminLoginReducer, adminViewOrders } from "./reducers/adminReducer";
 
@@ -74,6 +75,7 @@ const reducer = combineReducers({
   databaseCourses: databaseCourseListReducer,
   fullstackCourses: fullstackCourseListReducer,
   otherCourses: otherCourseListReducer,
+  admin: adminReducer
   //   adminLogin: adminLoginReducer,
   //   orderListAll: adminViewOrders,
   //   userDetails: userDetailsReducer,

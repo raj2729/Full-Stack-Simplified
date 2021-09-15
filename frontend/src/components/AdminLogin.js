@@ -1,29 +1,40 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { adminLogin } from "../redux/actions/admin";
+import { adminLogin } from "../actions/adminActions";
+import { useDispatch, useSelector  } from "react-redux";
 
-const Login = ({ adminLogin }) => {
+const Login = () => {
+
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
 
+  const admin = useSelector((state)=> state.admin)
+
   const onSubmit = async (e) => {
       e.preventDefault();
-      await adminLogin(email, password);
-      history.push("/admin");
+      dispatch(adminLogin(email, password))
   };
+
+  useEffect(()=> {
+    if(admin.adminDetails.data && admin.adminDetails.data.isAdmin===true) {
+      history.push("/admin/access")
+    }
+  },[admin])
+
 
   return (
     <div className="login">
       <div className="loginDiv">
         <div className="left">
-          <img src={trueno} alt="logo" className="logo" />
+          <img src={""} alt="logo" className="logo" />
           <h1>Welcome, Admin!</h1>
           <hr />
           <p>
             Not an admin? Visit our{" "}
-            <a href="https://www.gotrueno.com/">website!</a>
+            <a href="https://localhost:3000/">website!</a>
           </p>
         </div>
         <div className="signin">
@@ -55,4 +66,4 @@ const Login = ({ adminLogin }) => {
   );
 };
 
-export default connect(null, { adminLogin })(Login);
+export default Login;
