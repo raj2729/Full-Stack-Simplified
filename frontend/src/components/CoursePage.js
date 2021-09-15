@@ -172,7 +172,8 @@ function CoursePage({ history, match }) {
             userInfo.data._id,
             match.params.id,
             response.data.secure_url,
-            githubLink
+            githubLink,
+            "submit"
           )
         );
       });
@@ -216,6 +217,10 @@ function CoursePage({ history, match }) {
       // if (userInfo) dispatch(allUserCourses(userInfo.data._id));
       dispatch(isUserEnrolled(course.data._id, userInfo.data._id));
       if (userInfo) dispatch(allUserCoursesAction(userInfo.data._id));
+      setIsUserEnrolledInCourseFromAllCourses(true);
+      dispatch(
+        createAssignment(userInfo.data._id, match.params.id, "", "", "unsubmit")
+      );
       alert("Course enrolled successfully");
     } else {
       alert("Error in enrolling course");

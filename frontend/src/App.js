@@ -15,7 +15,7 @@ function App() {
       <Route path="/signin" component={SignIn} exact></Route>
       <Route path="/signup" component={SignUp} exact></Route>
       <Route path="/course/:id" component={CoursePage} exact></Route>
-      <Route path="/assignments" component={Assignments} exact></Route>
+      <Route path="/assignments/:id" component={Assignments} exact></Route>
     </BrowserRouter>
   );
 }

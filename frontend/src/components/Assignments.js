@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -13,6 +13,9 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 // import Button from '@material-ui/core/Button';
 // or
 import { Button } from "@material-ui/core";
+
+//PROGRESS
+import { CircularProgress } from "@material-ui/core";
 
 // const useStyles = makeStyles({
 
@@ -29,6 +32,7 @@ import { createTheme, ThemeProvider } from "@material-ui/core";
 
 // Importing Header
 import Header from "./Header";
+import axios from "axios";
 
 const homePageTheme = createTheme({
   palette: {
@@ -79,8 +83,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(assignmentCourseName, assignmentStatus, isCertified) {
+  return { assignmentCourseName, assignmentStatus, isCertified };
 }
 const DownloadButton = () => {
   return (
@@ -90,47 +94,67 @@ const DownloadButton = () => {
   );
 };
 
-const rows = [
-  createData(
-    <p style={{ paddingLeft: "20%" }}>MERN Development</p>,
-    <center>Pending</center>,
-    <center>
-      <DownloadButton />
-    </center>
-  ),
-  createData(
-    <p style={{ paddingLeft: "20%" }}>Django</p>,
-    <center>Pending</center>,
-    <center>
-      <DownloadButton />
-    </center>
-  ),
-  createData(
-    <p style={{ paddingLeft: "20%" }}>VueJS</p>,
-    <center>Pending</center>,
-    <center>
-      <DownloadButton />
-    </center>
-  ),
+// const rows = [
+//   createData(
+//     <p style={{ paddingLeft: "20%" }}>MERN Development</p>,
+//     <center>Pending</center>,
+//     <center>
+//       <DownloadButton />
+//     </center>
+//   ),
+//   createData(
+//     <p style={{ paddingLeft: "20%" }}>Django</p>,
+//     <center>Pending</center>,
+//     <center>
+//       <DownloadButton />
+//     </center>
+//   ),
+//   createData(
+//     <p style={{ paddingLeft: "20%" }}>VueJS</p>,
+//     <center>Pending</center>,
+//     <center>
+//       <DownloadButton />
+//     </center>
+//   ),
 
-  createData(
-    <p style={{ paddingLeft: "20%" }}>AngularJS</p>,
-    <center>Pending</center>,
-    <center>
-      <DownloadButton />
-    </center>
-  ),
-  createData(
-    <p style={{ paddingLeft: "20%" }}>Gingerbread</p>,
-    <center>Pending</center>,
-    <center>
-      <DownloadButton />
-    </center>
-  ),
-];
+//   createData(
+//     <p style={{ paddingLeft: "20%" }}>AngularJS</p>,
+//     <center>Pending</center>,
+//     <center>
+//       <DownloadButton />
+//     </center>
+//   ),
+//   createData(
+//     <p style={{ paddingLeft: "20%" }}>Gingerbread</p>,
+//     <center>Pending</center>,
+//     <center>
+//       <DownloadButton />
+//     </center>
+//   ),
+// ];
 
-const Assignments = () => {
+const Assignments = ({ history, match }) => {
   const classes = useStyles();
+  const [assignments, setAssignments] = useState({});
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch(
+      "http://localhost:8080/assignment/getAssignmentsOfUser/613a39c9efca784f73c51932",
+      { method: "GET" }
+    )
+      .then((response) =>
+        // console.log(response);
+        // return response;
+        response.json()
+      )
+      .then((response) => {
+        setAssignments(response);
+        setLoaded(true);
+        return response;
+      });
+    console.log(assignments.data);
+  }, [match, history]);
 
   return (
     <div
@@ -156,22 +180,63 @@ const Assignments = () => {
               <TableCell align="center">
                 <h1>Download Certificate</h1>
               </TableCell>
-              {/* <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
-            ))}
+            {loaded === false ? (
+              <CircularProgress />
+            ) : assignments.data.length === 0 ? (
+              <center>
+                <p style={{ color: "red" }}>
+                  You have not enrolled in any course yet
+                </p>
+              </center>
+            ) : (
+              assignments.data.map((row) => (
+                <TableRow>
+                  <TableCell component="th" scope="row">
+                    <p style={{ paddingLeft: "20%" }}>{row.courseId.name}</p>
+                  </TableCell>
+                  <TableCell align="right">
+                    <center>
+                      {row.assignmentStatus === "unsubmit" ? (
+                        <div>
+                          <p>Pending</p>
+                          <p style={{ color: "red" }}>
+                            Assignment is not submitted yet
+                          </p>
+                        </div>
+                      ) : row.assignmentStatus === "submit" ? (
+                        "Submitted"
+                      ) : (
+                        "Completed"
+                      )}
+                    </center>
+                    {/* {row.assignmentStatus} */}
+                  </TableCell>
+                  <TableCell align="right">
+                    <center>
+                      <Button
+                        disabled={row.isCertified === false}
+                        variant="contained"
+                        color="primary"
+                      >
+                        DOWNLOAD <GetAppIcon />
+                      </Button>
+                      {row.isCertified === false ? (
+                        <p style={{ color: "red" }}>
+                          Assignment is not certified yet
+                        </p>
+                      ) : (
+                        <p></p>
+                      )}
+                    </center>
+                  </TableCell>
+                  {/* <TableCell align="right">{row.carbs}</TableCell>
+                      <TableCell align="right">{row.protein}</TableCell> */}
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

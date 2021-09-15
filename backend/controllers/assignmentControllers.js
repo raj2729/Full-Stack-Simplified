@@ -6,6 +6,7 @@ const User = require("../models/userModel");
 /*
 LIST OF CONTROLLERS
 1. Create an assignment
+2. Get all assignments of a user by userId
 */
 
 // 1. Create a new assignment
@@ -16,15 +17,34 @@ const createAssignment = asyncHandler(async (req, res) => {
     assignmentLink,
     assignmentScreenshotLink,
     courseId,
+    assignmentStatus,
   } = req.body;
   // const userId = req.user._id;
 
   const submitted = await Assignment.find({ userId, courseId });
 
   if (submitted.length > 0) {
-    return res.status(400).json({
-      success: false,
-      error: "User has already submitted the assignment",
+    console.log(submitted);
+    // submitted[0].assignmentLink = assignmentLink;
+    // submitted[0].assignmentScreenshotLink = assignmentScreenshotLink;
+    // submitted[0].assignmentStatus = assignmentStatus;
+    // submitted[0].isCertified = isCertified;
+    // const newAssignment = new Assignment(submitted[0]);
+    await Assignment.findByIdAndDelete(submitted[0]._id);
+    const newAssignment = new Assignment({
+      userId,
+      courseId,
+      isCertified,
+      assignmentLink,
+      assignmentScreenshotLink,
+      assignmentStatus,
+    });
+
+    await newAssignment.save();
+
+    return res.status(200).json({
+      success: true,
+      data: newAssignment,
     });
   }
 
@@ -43,6 +63,7 @@ const createAssignment = asyncHandler(async (req, res) => {
     isCertified,
     assignmentLink,
     assignmentScreenshotLink,
+    assignmentStatus: assignmentStatus,
   });
 
   await newAssignment.save();
@@ -54,6 +75,18 @@ const createAssignment = asyncHandler(async (req, res) => {
   });
 });
 
+// 2. Get all assignments of a user by userId
+const getAllAssignmentsOfUser = asyncHandler(async (req, res) => {
+  const orders = await Assignment.find({ userId: req.params.id }).populate(
+    "courseId"
+  );
+  res.status(200).json({
+    success: true,
+    data: orders,
+  });
+});
+
 module.exports = {
   createAssignment,
+  getAllAssignmentsOfUser,
 };

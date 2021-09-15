@@ -233,7 +233,7 @@ const Header = () => {
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <Divider />
                 <Link
-                  to={"/assignments"}
+                  to={`/assignments/${userInfo.data._id}`}
                   style={{ textDecoration: "none", color: "black" }}
                 >
                   <MenuItem>My Assignments</MenuItem>
@@ -307,20 +307,43 @@ const Header = () => {
             <ListItemText primary="My Courses" />
           </ListItem>
         </List>
-
-        <Link
-          to={"/assignments"}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <List>
-            <ListItem button disabled={userInfo === null} key="My Assignments">
-              <ListItemIcon>
-                <CastForEducationIcon />
-              </ListItemIcon>
-              <ListItemText primary="My Assignments" />
-            </ListItem>
-          </List>
-        </Link>
+        {userInfo ? (
+          <Link
+            to={`/assignments/${userInfo.data._id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <List>
+              <ListItem
+                button
+                disabled={userInfo === null}
+                key="My Assignments"
+              >
+                <ListItemIcon>
+                  <CastForEducationIcon />
+                </ListItemIcon>
+                <ListItemText primary="My Assignments" />
+              </ListItem>
+            </List>
+          </Link>
+        ) : (
+          <Link
+            to={`/assignments`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <List>
+              <ListItem
+                button
+                disabled={userInfo === null}
+                key="My Assignments"
+              >
+                <ListItemIcon>
+                  <CastForEducationIcon />
+                </ListItemIcon>
+                <ListItemText primary="My Assignments" />
+              </ListItem>
+            </List>
+          </Link>
+        )}
 
         <List>
           <ListItem button disabled={userInfo === null} key="Profile">
