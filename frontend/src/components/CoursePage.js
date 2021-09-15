@@ -46,6 +46,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Header from "./Header";
 import { isUserEnrolled } from "../actions/userActions";
 import { createAssignment } from "../actions/assignmentActions";
+import PlayLecture from "./PlayLecture";
 
 const homePageTheme = createTheme({
   palette: {
@@ -94,9 +95,6 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
-
-const useStylesTextField = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
@@ -122,7 +120,7 @@ const loadRazorPay = async () => {
 };
 
 function CoursePage({ history, match }) {
-  const classes = useStylesTextField();
+  const classes = useStyles();
 
   const dispatch = useDispatch();
   // const [isEnrolled, setIsEnrolled] = useState(false);
@@ -451,6 +449,7 @@ function CoursePage({ history, match }) {
                   {chapter.chapterNumber}.&nbsp;
                   {chapter.chapterName}
                 </p>
+                <PlayLecture />
               </Grid>
             ))}
           </Grid>
