@@ -15,7 +15,7 @@ const generatePDF = (name, course) => {
     }
   }
 
-  doc.pipe(fs.createWriteStream("output.pdf"));
+  doc.pipe(fs.createWriteStream("CertificateOfCompletion.pdf"));
 
   doc.rect(0, 0, doc.page.width, doc.page.height).fill("#fff");
 
@@ -72,7 +72,7 @@ const generatePDF = (name, course) => {
     .font("fonts/NotoSansJP-Light.otf")
     .fontSize(10)
     .fill("#021c27")
-    .text("Present to", {
+    .text("This is to certify that ", {
       align: "center",
     });
 
@@ -92,7 +92,7 @@ const generatePDF = (name, course) => {
     .font("fonts/NotoSansJP-Light.otf")
     .fontSize(10)
     .fill("#021c27")
-    .text(`Successfully completed the ${course}.`, {
+    .text(`has successfully completed the ${course}.`, {
       align: "center",
     });
 
@@ -101,27 +101,41 @@ const generatePDF = (name, course) => {
   doc.lineWidth(1);
 
   // Signatures
-  const lineSize = 174;
-  const signatureHeight = 390;
+  const lineSize = 154;
+  const signatureHeight = 450;
 
   doc.fillAndStroke("#021c27");
   doc.strokeOpacity(0.2);
 
-  const startLine1 = 128;
-  const endLine1 = 128 + lineSize;
+  const startLine1 = 208;
+  const endLine1 = 198 + lineSize;
   doc
     .moveTo(startLine1, signatureHeight)
     .lineTo(endLine1, signatureHeight)
     .stroke();
+  doc.image("assets/ach.jpg", startLine1 + 405, 50, {
+    // fit: [100, 100],
+    // align: "left",
+    height: 250,
+    width: 200,
+  });
+  doc.image("assets/sergio1.png", startLine1 + 20, 370, {
+    fit: [maxWidth, maxHeight],
+    align: "left",
+  });
+  doc.image("assets/raquel.png", startLine1 + 315, 370, {
+    fit: [maxWidth, maxHeight],
+    align: "left",
+  });
 
-  const startLine2 = endLine1 + 32;
+  const startLine2 = endLine1;
   const endLine2 = startLine2 + lineSize;
-  doc
-    .moveTo(startLine2, signatureHeight)
-    .lineTo(endLine2, signatureHeight)
-    .stroke();
+  // doc
+  //   .moveTo(startLine2, signatureHeight)
+  //   .lineTo(endLine2, signatureHeight)
+  //   .stroke();
 
-  const startLine3 = endLine2 + 32;
+  const startLine3 = endLine2;
   const endLine3 = startLine3 + lineSize;
   doc
     .moveTo(startLine3, signatureHeight)
@@ -132,7 +146,7 @@ const generatePDF = (name, course) => {
     .font("fonts/NotoSansJP-Bold.otf")
     .fontSize(10)
     .fill("#021c27")
-    .text("John Doe", startLine1, signatureHeight + 10, {
+    .text("Sergio Marquina", startLine1, signatureHeight + 10, {
       columns: 1,
       columnGap: 0,
       height: 40,
@@ -144,19 +158,43 @@ const generatePDF = (name, course) => {
     .font("fonts/NotoSansJP-Light.otf")
     .fontSize(10)
     .fill("#021c27")
-    .text("Associate Professor", startLine1, signatureHeight + 25, {
+    .text("Founder, Full Stack Simplified", startLine1, signatureHeight + 25, {
       columns: 1,
       columnGap: 0,
       height: 40,
       width: lineSize,
       align: "center",
     });
+
+  // doc
+  //   .font("fonts/NotoSansJP-Bold.otf")
+  //   .fontSize(10)
+  //   .fill("#021c27")
+  //   .text("Student Name", startLine2, signatureHeight + 10, {
+  //     columns: 1,
+  //     columnGap: 0,
+  //     height: 40,
+  //     width: lineSize,
+  //     align: "center",
+  //   });
+
+  // doc
+  //   .font("fonts/NotoSansJP-Light.otf")
+  //   .fontSize(10)
+  //   .fill("#021c27")
+  //   .text("Student", startLine2, signatureHeight + 25, {
+  //     columns: 1,
+  //     columnGap: 0,
+  //     height: 40,
+  //     width: lineSize,
+  //     align: "center",
+  //   });
 
   doc
     .font("fonts/NotoSansJP-Bold.otf")
     .fontSize(10)
     .fill("#021c27")
-    .text("Student Name", startLine2, signatureHeight + 10, {
+    .text("Raquel Murillo", startLine3, signatureHeight + 10, {
       columns: 1,
       columnGap: 0,
       height: 40,
@@ -168,31 +206,7 @@ const generatePDF = (name, course) => {
     .font("fonts/NotoSansJP-Light.otf")
     .fontSize(10)
     .fill("#021c27")
-    .text("Student", startLine2, signatureHeight + 25, {
-      columns: 1,
-      columnGap: 0,
-      height: 40,
-      width: lineSize,
-      align: "center",
-    });
-
-  doc
-    .font("fonts/NotoSansJP-Bold.otf")
-    .fontSize(10)
-    .fill("#021c27")
-    .text("Jane Doe", startLine3, signatureHeight + 10, {
-      columns: 1,
-      columnGap: 0,
-      height: 40,
-      width: lineSize,
-      align: "center",
-    });
-
-  doc
-    .font("fonts/NotoSansJP-Light.otf")
-    .fontSize(10)
-    .fill("#021c27")
-    .text("Director", startLine3, signatureHeight + 25, {
+    .text("CEO, Full Stack Simplified", startLine3, signatureHeight + 25, {
       columns: 1,
       columnGap: 0,
       height: 40,
@@ -203,29 +217,29 @@ const generatePDF = (name, course) => {
   jumpLine(doc, 4);
 
   // Validation link
-  const link = "https://validate-your-certificate.hello/validation-code-here";
+  // const link = "https://validate-your-certificate.hello/validation-code-here";
 
-  const linkWidth = doc.widthOfString(link);
-  const linkHeight = doc.currentLineHeight();
+  // const linkWidth = doc.widthOfString(link);
+  // const linkHeight = doc.currentLineHeight();
 
-  doc
-    .underline(doc.page.width / 2 - linkWidth / 2, 448, linkWidth, linkHeight, {
-      color: "#021c27",
-    })
-    .link(doc.page.width / 2 - linkWidth / 2, 448, linkWidth, linkHeight, link);
+  // doc
+  //   .underline(doc.page.width / 2 - linkWidth / 2, 448, linkWidth, linkHeight, {
+  //     color: "#021c27",
+  //   })
+  //   .link(doc.page.width / 2 - linkWidth / 2, 448, linkWidth, linkHeight, link);
 
-  doc
-    .font("fonts/NotoSansJP-Light.otf")
-    .fontSize(10)
-    .fill("#021c27")
-    .text(link, doc.page.width / 2 - linkWidth / 2, 448, linkWidth, linkHeight);
+  // doc
+  //   .font("fonts/NotoSansJP-Light.otf")
+  //   .fontSize(10)
+  //   .fill("#021c27")
+  //   .text(link, doc.page.width / 2 - linkWidth / 2, 448, linkWidth, linkHeight);
 
   // Footer
   const bottomHeight = doc.page.height - 100;
 
-  doc.image("assets/qr.png", doc.page.width / 2 - 30, bottomHeight, {
-    fit: [60, 60],
-  });
+  // doc.image("assets/qr.png", doc.page.width / 2 - 30, bottomHeight, {
+  //   fit: [60, 60],
+  // });
 
   doc.end();
 
@@ -271,7 +285,7 @@ const generatePDF = (name, course) => {
     html: output,
     attachments: [
       {
-        path: "/home/ubuntu/MYFOLDER/TSEC Hackathon/backend/output.pdf",
+        path: "/home/ubuntu/MYFOLDER/TSEC Hackathon/backend/CertificateOfCompletion.pdf",
       },
     ],
   };
