@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../middlewares/generateToken");
-// const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer");
 
 /*
 LIST OF CONTROLLERS

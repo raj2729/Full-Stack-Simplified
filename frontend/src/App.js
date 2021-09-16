@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import CoursePage from "./components/CoursePage";
 import Assignments from "./components/Assignments";
 import AdminLogin from "./components/AdminLogin";
+import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
       <Route path="/course/:id" component={CoursePage} exact></Route>
       <Route path="/assignments/:id" component={Assignments} exact></Route>
       <Route path="/admin/login" component={AdminLogin} exact></Route>
-      <Route path="/admin/access" component={()=> {return <div>Looks like it worked</div>}} exact></Route>
+      <Route path="/admin/access" component={AdminDashboard} exact></Route>
     </BrowserRouter>
   );
 }

@@ -11,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const history = useHistory();
 
-  const admin = useSelector((state)=> state.admin)
+  const admin = useSelector((state)=> state.admin.adminDetails.data)
 
   const onSubmit = async (e) => {
       e.preventDefault();
@@ -19,7 +19,7 @@ const Login = () => {
   };
 
   useEffect(()=> {
-    if(admin.adminDetails.data && admin.adminDetails.data.isAdmin===true) {
+    if(admin && admin.isAdmin===true) {
       history.push("/admin/access")
     }
   },[admin])
