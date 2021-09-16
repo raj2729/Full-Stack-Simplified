@@ -87,14 +87,37 @@ const generatePDF = (name, course) => {
     });
 
   jumpLine(doc, 1);
-
+  const months = {
+    0: "January",
+    1: "February",
+    2: "March",
+    3: "April",
+    4: "May",
+    5: "June",
+    6: "July",
+    7: "August",
+    8: "September",
+    9: "October",
+    10: "November",
+    11: "December",
+  };
   doc
     .font("fonts/NotoSansJP-Light.otf")
     .fontSize(10)
     .fill("#021c27")
-    .text(`has successfully completed the ${course}.`, {
-      align: "center",
-    });
+    .text(
+      // `has successfully completed the ${course} on ${new Date(
+      //   Date.now()
+      // ).toLocaleDateString()}.`
+      `has successfully completed the ${course} on ${new Date(
+        Date.now()
+      ).getDate()} ${months[new Date(Date.now()).getMonth()]}, ${new Date(
+        Date.now()
+      ).getFullYear()}.`,
+      {
+        align: "center",
+      }
+    );
 
   jumpLine(doc, 7);
 
