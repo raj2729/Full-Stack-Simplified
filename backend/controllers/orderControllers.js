@@ -11,6 +11,7 @@ LIST OF CONTROLLERS
 4. Get all students enrolled in a course
 5. Count of students enrolled in a particular course
 6. Check if user is enrolled in the course or not
+7. Get all courses of a instructor
 */
 
 // 1. Create a new order
@@ -115,6 +116,7 @@ const checkIfUserIsEnrolledInCourse = asyncHandler(async (req, res) => {
     });
   }
 });
+
 
 module.exports = {
   createOrder,

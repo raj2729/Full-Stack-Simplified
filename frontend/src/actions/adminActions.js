@@ -3,7 +3,8 @@ import {
     ADMIN_ERROR,
     ADMIN_LOADING,
     ADMIN_LOGIN,
-    ADMIN_USERS
+    ADMIN_USERS,
+    ADMIN_INSTRUCTORS
 } from "../constants/adminConstants";
 
 export const adminLogin = (email,password) => async (dispatch) => {
@@ -35,8 +36,9 @@ export const adminLogin = (email,password) => async (dispatch) => {
 
 export const getAllUsers = () => async (dispatch, getState) => {
   try {
+    dispatch({type:ADMIN_LOADING,payload:{}})
     const token = getState().admin.adminDetails.token
-    console.log(token)
+    // console.log(token)
     const headers = {authorization: `Bearer ${token}`}
     const  {data} = await axios.get('/admin/getAllStudents',{headers});
     if(data.data) {
@@ -51,6 +53,28 @@ export const getAllUsers = () => async (dispatch, getState) => {
     dispatch({
       type: ADMIN_ERROR,
       payload: error
+    })
+  }
+}
+
+export const getAllInstructors = ()=> async(dispatch, getState) => {
+  try {
+    dispatch({type:ADMIN_LOADING,payload:{}})
+    const token = getState().admin.adminDetails.token
+    const headers = {authorization: `Bearer ${token}`}
+    const  {data} = await axios.get('/admin/getAllInstructors',{headers});
+    if(data.data) {
+      dispatch({
+        type: ADMIN_INSTRUCTORS,
+        payload: data.data
+      })
+    } else {
+      console.log("Error in getallUsers")
+    }
+  } catch(err) {
+    dispatch({
+      type: ADMIN_ERROR,
+      payload: err
     })
   }
 }

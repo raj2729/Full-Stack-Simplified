@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Course = require("../models/courseModel");
 const generateToken = require("../middlewares/generateToken");
 /*
 LIST OF CONTROLLERS
@@ -38,9 +39,24 @@ const getAllStudents = asyncHandler(async (req, res) => {
   })
 });
 
+// 3. Get all instructors
+const getAllInstructors = asyncHandler(async (req,res) => {
+  let instructors = await User.find({isInstructor:true}).select('_id name email')
+  const instructor = []
+  for(let teacher of instructors) {
+    let count = await Course.countDocuments({instructorId:teacher._id})
+    instructor.push({teacher, count})
+  }
+  res.status(200).json({
+    success: true,
+    data: instructor
+  })
+})
+
 
 module.exports = {
     adminLogin,
-    getAllStudents
+    getAllStudents,
+    getAllInstructors
 };
 

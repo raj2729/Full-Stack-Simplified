@@ -6,53 +6,53 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import { useSelector  } from "react-redux";
 
-const UserTable = () => {
+const InstructorTable = () => {
 
-  const allUsers = useSelector((state)=> state.admin.allUsers)
+  const allInstructors = useSelector((state)=> state.admin.allInstructors)
   const [textVal, setTextVal] = useState('')
-  const [filteredUsers, setFilteredUsers] = useState([])
+  const [filteredInstructors, setFilteredInstructors] = useState([])
 
   useEffect(()=> {
-    setFilteredUsers(allUsers)
-  },[allUsers])
+    setFilteredInstructors(allInstructors)
+  },[allInstructors])
    
   const onChange = (value) => {
     const searchVal = value.toLowerCase();
     let regex = new RegExp(searchVal, "g");
-    const byUserName = allUsers.filter((user) => {
-      if(user.name) {
-        return user.name.toLowerCase().match(regex)
+    const byInstructorName = allInstructors.filter((instructor) => {
+      if(instructor.teacher.name) {
+        return instructor.teacher.name.toLowerCase().match(regex)
       }
     }
     );
-    const byEmail = allUsers.filter((user) => {
-      if(user.email) {
-        return user.email.toLowerCase().match(regex)
+    const byEmail = allInstructors.filter((instructor) => {
+      if(instructor.teacher.email) {
+        return instructor.teacher.email.toLowerCase().match(regex)
       }
     }
     );
-    setFilteredUsers([...new Set([...byUserName, ...byEmail])]);
+    setFilteredInstructors([...new Set([...byInstructorName, ...byEmail])]);
   };
 
   const columns = [
     {
       name: "Name",
-      selector: "name",
+      selector: (row)=> row.teacher.name,
       sortable: true,
     },
     {
       name: "Email",
-      selector: "email",
+      selector: (row)=> row.teacher.email,
       sortable: true,
     },
     {
-      name: "Enrollment Date",
-      selector: (row) => new Date(row.createdAt).toLocaleDateString()
+      name: "Number of courses",
+      selector: (row) => row.count
     },
     {
-      name: "Courses Enrolled",
+      name: "Courses Taught",
       cell: (row) => (
-        <Link to={`/user/:userId`}>View</Link>
+        <Link to={`/instructor/:instructorId`}>View</Link>
       ),
     },
   ];
@@ -78,9 +78,9 @@ const UserTable = () => {
         />
       </form>
       <DataTable
-        title="Students"
+        title="Instructors"
         columns={columns}
-        data={filteredUsers}
+        data={filteredInstructors}
         highlightOnHover={true}
         pointerOnHover={true}
         pagination={true}
@@ -90,4 +90,4 @@ const UserTable = () => {
   );
 };
 
-export default UserTable;
+export default InstructorTable;
