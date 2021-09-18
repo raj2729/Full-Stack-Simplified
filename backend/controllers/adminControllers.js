@@ -1,10 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Course = require("../models/courseModel");
+const Order = require("../models/orderModel");
 const generateToken = require("../middlewares/generateToken");
 /*
 LIST OF CONTROLLERS
 1. Admin Login
+2. Get all instructors
+3. Get all users
+4. Get courses summary
 */
 
 // 1. Ask a question - Logged in users
@@ -53,10 +57,24 @@ const getAllInstructors = asyncHandler(async (req,res) => {
   })
 })
 
+// 4. Courses Page Admin Panel
+const getCoursesSummary = asyncHandler(async (req,res)=> {
+  const cour = await Course.find({}).populate('instructorId', 'name email').select("_id name type price ")
+  let courses = [];
+  for(let course of cour) {
+    const count = await Order.countDocuments({courseId: course._id})
+    courses.push({course, count})
+  }
+  res.status(200).json({
+    success: true,
+    data: courses
+  })
+})
 
 module.exports = {
     adminLogin,
     getAllStudents,
-    getAllInstructors
+    getAllInstructors,
+    getCoursesSummary
 };
 

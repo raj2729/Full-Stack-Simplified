@@ -62,7 +62,7 @@ const InstructorTable = () => {
       <form onSubmit={(e) => e.preventDefault()}>
         <TextField
           id="outlined-search"
-          placeholder="Search by name/e-mail"
+          placeholder="Search by Name/Email"
           fullWidth
           size="small"
           type="search"

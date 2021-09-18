@@ -3,7 +3,8 @@ const express = require("express");
 const {
     adminLogin,
     getAllStudents,
-    getAllInstructors
+    getAllInstructors,
+    getCoursesSummary
 } = require("../controllers/adminControllers");
 
 const { adminProtect } = require("../middlewares/protectedRoutes");
@@ -19,6 +20,9 @@ router.route("/getAllStudents").get(adminProtect,getAllStudents)
 
 // Get all instructors
 router.route("/getAllInstructors").get(adminProtect,getAllInstructors)
+
+// Get all courses summary
+router.route("/getCoursesSummary").get(adminProtect,getCoursesSummary)
 
 
 module.exports = router;

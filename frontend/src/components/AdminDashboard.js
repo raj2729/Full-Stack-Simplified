@@ -9,22 +9,24 @@ import InstructorTable from "./AdminInstructors";
 
 
 // actions
-import { getAllUsers, getAllInstructors } from "../actions/adminActions";
+import { getAllUsers, getAllInstructors, getCoursesSummary } from "../actions/adminActions";
+import CourseTable from "./AdminCourses";
 
 function AdminDashboard() {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
     dispatch(getAllUsers());
     dispatch(getAllInstructors())
+    dispatch(getCoursesSummary())
     const [mode, setMode] = useState("dashboard")
 
     const list = ()=> (
         <div onClick={()=>{setOpen(false)}}>
           <List>
             <ListItem><Button onClick = {()=>setMode("dashboard")}><h4><i className="fa fa-th-large"></i> Dashboard</h4></Button></ListItem>
+            <ListItem><Button onClick = {()=>setMode("courses")}><h4><i className="fa fa-play-circle"></i> Courses</h4></Button></ListItem>
             <ListItem><Button onClick = {()=>setMode("users")}><h4><i className="fa fa-users"></i> Students</h4></Button></ListItem>
             <ListItem><Button onClick = {()=>setMode("instructors")}><h4><i className="fa fa-bar-chart"></i> Instructors</h4></Button></ListItem>
-            <ListItem><Button><h4><i className="fa fa-play-circle"></i> Courses</h4></Button></ListItem>
             <ListItem><Button><h4><i className="fa fa-money"></i> Orders</h4></Button></ListItem>
           </List>
         </div>
@@ -44,6 +46,7 @@ function AdminDashboard() {
                 {list()}
             </Drawer>
             {mode==="dashboard" && <h1>Admin Panel Dashboard</h1>}
+            {mode==="courses" && <CourseTable/>}
             {mode==="users" && <UserTable/>}
             {mode==="instructors" && <InstructorTable/>}
         </div>
