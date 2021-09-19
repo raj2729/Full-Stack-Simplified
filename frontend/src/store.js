@@ -25,6 +25,7 @@ import {
   fullstackCourseListReducer,
   otherCourseListReducer,
   allUserCoursesReducer,
+  allInstructorCoursesReducer,
 } from "./reducers/courseReducer";
 import { allUserCourses } from "./actions/courseActions";
 import { createAssignmentReducer } from "./reducers/assignmentReducers";
@@ -67,6 +68,7 @@ const reducer = combineReducers({
   isEnrolledInCourse: isUserEnrolledReducer,
   assignment: createAssignmentReducer,
   allUserCourses: allUserCoursesReducer,
+  allInstructorCourse: allInstructorCoursesReducer,
   courseDetails: oneCourseDetailsReducer,
   frontendCourses: frontendCourseListReducer,
   backendCourses: backendCourseListReducer,

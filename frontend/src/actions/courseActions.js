@@ -24,6 +24,9 @@ import {
   OTHER_COURSES_LIST_SUCCESS,
   OTHER_COURSES_LIST_FAILS,
   OTHER_COURSES_LIST_REQUEST,
+  ALL_INSTRUCTOR_COURSES_REQUEST,
+  ALL_INSTRUCTOR_COURSES_SUCCESS,
+  ALL_INSTRUCTOR_COURSES_FAILS,
 } from "../constants/courseConstants";
 
 export const oneCourseDetails = (id) => async (dispatch) => {
@@ -59,6 +62,27 @@ export const allUserCoursesAction = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ALL_USER_COURSES_FAILS,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const allInstructorCoursesAction = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ALL_INSTRUCTOR_COURSES_REQUEST,
+    });
+    const { data } = await axios.get(`/course/allInstructorCourses/${id}`);
+    dispatch({
+      type: ALL_INSTRUCTOR_COURSES_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ALL_INSTRUCTOR_COURSES_FAILS,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

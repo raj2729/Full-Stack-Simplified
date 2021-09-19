@@ -188,6 +188,22 @@ const getAllCoursesOfUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Get all courses by instructor
+const getAllCoursesOfInstructor = asyncHandler(async (req, res) => {
+  const courses = await Course.find({ instructorId: req.params.id });
+  if (courses) {
+    res.status(200).json({
+      success: true,
+      data: courses,
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: "No course found",
+    });
+  }
+});
+
 // Payment gateway using Razorpay
 const payUsingRazorpay = async (req, res) => {
   const payment_capture = 1;
@@ -225,5 +241,6 @@ module.exports = {
   getAllOtherCourses,
   getCourseById,
   getAllCoursesOfUser,
+  getAllCoursesOfInstructor,
   payUsingRazorpay,
 };

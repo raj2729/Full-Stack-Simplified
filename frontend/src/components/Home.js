@@ -24,6 +24,7 @@ import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
+  allInstructorCoursesAction,
   allUserCoursesAction,
   backendCourseListAction,
   databaseCourseListAction,
@@ -198,6 +199,7 @@ function Home({ history }) {
   useEffect(() => {
     if (userInfo) dispatch(allUserCoursesAction(userInfo.data._id));
     dispatch(isUserEnrolledReset());
+    dispatch(allInstructorCoursesAction(userInfo.data._id));
     dispatch(frontendCourseListAction());
     dispatch(backendCourseListAction());
     dispatch(designingCourseListAction());

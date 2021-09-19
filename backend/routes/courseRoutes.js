@@ -12,6 +12,7 @@ const {
   payUsingRazorpay,
   getAllOtherCourses,
   getAllCoursesOfUser,
+  getAllCoursesOfInstructor,
 } = require("../controllers/courseControllers");
 
 const { instructorProtect } = require("../middlewares/protectedRoutes");
@@ -47,6 +48,9 @@ router.route("/oneCourse/:id").get(getCourseById);
 
 // Get all courses by id
 router.route("/allCourses/:id").get(getAllCoursesOfUser);
+
+// Get all courses of instructor
+router.route("/allInstructorCourses/:id").get(getAllCoursesOfInstructor);
 
 // Pay using Razorpay
 router.route("/razorpay").post(payUsingRazorpay);
