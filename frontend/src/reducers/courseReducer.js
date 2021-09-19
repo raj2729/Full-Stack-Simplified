@@ -23,6 +23,9 @@ import {
   OTHER_COURSES_LIST_REQUEST,
   OTHER_COURSES_LIST_SUCCESS,
   OTHER_COURSES_LIST_FAILS,
+  ALL_USER_COURSES_LIST_SUCCESS,
+  ALL_USER_COURSES_LIST_FAILS,
+  ALL_USER_COURSES_LIST_REQUEST,
 } from "../constants/courseConstants";
 
 // Partiicular course details
@@ -150,3 +153,19 @@ export const otherCourseListReducer = (
       return state;
   }
 };
+
+// export const allUserCoursesListReducer = (
+//   state = { allUserCoursesList: [] },
+//   action
+// ) => {
+//   switch (action.type) {
+//     case ALL_USER_COURSES_LIST_REQUEST:
+//       return { ...state, loading: true, allUserCoursesList: [] };
+//     case ALL_USER_COURSES_LIST_SUCCESS:
+//       return { loading: false, allUserCoursesList: action.payload };
+//     case ALL_USER_COURSES_LIST_FAILS:
+//       return { loading: false, error: action.payload };
+//     default:
+//       return state;
+//   }
+// };

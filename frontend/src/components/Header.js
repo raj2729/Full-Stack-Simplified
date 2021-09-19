@@ -239,6 +239,24 @@ const Header = () => {
                   <MenuItem>My Assignments</MenuItem>
                 </Link>
                 <Divider />
+                <Divider />
+                {userInfo.data.isInstructor === true ? (
+                  <Link
+                    to={`/instructorcourses/${userInfo.data._id}`}
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <MenuItem>My Courses</MenuItem>
+                  </Link>
+                ) : (
+                  <Link
+                    to={`/mycourses/${userInfo.data._id}`}
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <MenuItem>My Courses</MenuItem>
+                  </Link>
+                )}
+
+                <Divider />
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>

@@ -7,6 +7,9 @@ import SignUp from "./components/SignUp";
 import Home from "./components/Home";
 import CoursePage from "./components/CoursePage";
 import Assignments from "./components/Assignments";
+import MyCoursesUser from "./components/MyCoursesUser";
+import ContactForm from "./components/ContactUs";
+import MyCoursesInstr from "./components/MyCoursesInstr";
 
 function App() {
   return (
@@ -16,6 +19,13 @@ function App() {
       <Route path="/signup" component={SignUp} exact></Route>
       <Route path="/course/:id" component={CoursePage} exact></Route>
       <Route path="/assignments/:id" component={Assignments} exact></Route>
+      <Route path="/mycourses/:id" component={MyCoursesUser} exact></Route>
+      <Route path="/contactForm" component={ContactForm} exact></Route>
+      <Route
+        path="/instructorcourses/:id"
+        component={MyCoursesInstr}
+        exact
+      ></Route>
     </BrowserRouter>
   );
 }

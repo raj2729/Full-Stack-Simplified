@@ -85,6 +85,9 @@ function SignIn({ history }) {
 
   useEffect(() => {
     if (userInfo) {
+      // if (userInfo.data.isInstructor === true) {
+      //   history.push("/instructorHomePage");
+      // } else
       history.push("/");
     }
   }, [userInfo, history]);

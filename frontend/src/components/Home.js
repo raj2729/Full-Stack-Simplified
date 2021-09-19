@@ -33,6 +33,7 @@ import {
   otherCourseListAction,
 } from "../actions/courseActions";
 import { isUserEnrolledReset } from "../actions/userActions";
+import ContactForm from "./ContactUs";
 
 const homePageTheme = createTheme({
   palette: {
@@ -293,6 +294,7 @@ function Home({ history }) {
             ))}
           </Container>
         </main>
+        <ContactForm />
         <footer className={classes.footer}>
           {/* Footer */}
           <Footer />
