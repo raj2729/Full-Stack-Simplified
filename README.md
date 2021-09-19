@@ -68,6 +68,5 @@ npm run dev
 
 ## API Endpoints used
 
-![TSJ Backend tasks Routes List](https://user-images.githubusercontent.com/68227858/131885090-7cfa6d17-8de3-47ab-bab3-5b88722f6726.jpg)
 
 ## Screenshots
