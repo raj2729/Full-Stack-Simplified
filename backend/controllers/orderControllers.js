@@ -63,7 +63,7 @@ const createOrder = asyncHandler(async (req, res) => {
 
 // 2. Get all orders - Only Admin
 const getAllOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate([{path:'userId', select:'name'}, {path:'courseId', select:'_id name instructorId'}])  ;
+  const orders = await Order.find({}).populate([{path:'userId', select:'name'}, {path:'courseId', select:'_id name instructorId price'}])  ;
   res.status(200).json({
     success: true,
     data: orders,

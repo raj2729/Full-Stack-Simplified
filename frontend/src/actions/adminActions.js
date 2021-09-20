@@ -5,7 +5,8 @@ import {
     ADMIN_LOGIN,
     ADMIN_USERS,
     ADMIN_INSTRUCTORS,
-    ADMIN_COURSES
+    ADMIN_COURSES,
+    ADMIN_ORDERS
 } from "../constants/adminConstants";
 
 export const adminLogin = (email,password) => async (dispatch) => {
@@ -93,6 +94,29 @@ export const getCoursesSummary = ()=> async(dispatch, getState) => {
       })
     } else {
       console.log("Error in getallUsers")
+    }
+  } catch(err) {
+    dispatch({
+      type: ADMIN_ERROR,
+      payload: err
+    })
+  }
+}
+
+export const getAllOrders = ()=> async(dispatch, getState)=> {
+  try {
+    dispatch({type:ADMIN_LOADING,payload:{}})
+    const token = getState().admin.adminDetails.token
+    const headers = {authorization: `Bearer ${token}`}
+    const  {data} = await axios.get('/order/getAllOrders',{headers});
+    console.log(data.data[0])
+    if(data.data) {
+      dispatch({
+        type: ADMIN_ORDERS,
+        payload: data.data
+      })
+    } else {
+      console.log("Error in getAllOrders")
     }
   } catch(err) {
     dispatch({
