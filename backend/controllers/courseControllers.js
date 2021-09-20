@@ -21,6 +21,7 @@ LIST OF CONTROLLERS
 8. Get Details of course by ID
 9. Pay using Razorpay
 10. Get details of all Other courses
+11. Add a chapter
 */
 
 // Create a new course
@@ -73,6 +74,104 @@ const createCourse = asyncHandler(async (req, res) => {
     res.status(400).json({
       success: false,
       message: "Course not Created Successfully",
+    });
+  }
+});
+
+// Create a new chapter
+const createChapter = asyncHandler(async (req, res) => {
+  const {
+    chapterNumber,
+    chapterName,
+    chapterVideoLink,
+    chapterVideoDescription,
+    chapterStudyMaterial,
+  } = req.body;
+  const courseId = req.params.id;
+  // console.log(courseId);
+  // await Course.findOneAndUpdate(
+  //   { _id: courseId },
+  //   {
+  //     $push: {
+  //       chapters: {
+  //         chapterNumber: chapterNumber,
+  //         chapterName: chapterName,
+  //         chapterVideoLink: chapterVideoLink,
+  //         chapterVideoDescription: chapterVideoDescription,
+  //         chapterStudyMaterial,
+  //       },
+  //     },
+  //   },
+  //   function (error, success) {
+  //     if (error) {
+  //       console.log(error);
+  //     } else {
+  //       console.log(success);
+  //     }
+  //   }
+  // );
+
+  const course = await Course.findById(req.params.id);
+  // console.log(course);
+
+  if (course) {
+    if (course.chapters) {
+      if (course.chapters.length === 0) {
+        course.chapters = [
+          {
+            chapterNumber,
+            chapterName,
+            chapterVideoLink,
+            chapterVideoDescription,
+            chapterStudyMaterial,
+          },
+        ];
+        const updatedCourse = await course.save();
+        // res.status(200).json({
+        //   success: true,
+        //   data: updatedCourse,
+        // });
+        // course.save();
+      } else {
+        course.chapters.push({
+          chapterNumber,
+          chapterName,
+          chapterVideoLink,
+          chapterVideoDescription,
+          chapterStudyMaterial,
+        });
+        const updatedCourse = await course.save();
+        // res.status(200).json({
+        //   success: true,
+        //   data: updatedCourse,
+        // });
+      }
+    } else {
+      course.chapters = [
+        {
+          chapterNumber,
+          chapterName,
+          chapterVideoLink,
+          chapterVideoDescription,
+          chapterStudyMaterial,
+        },
+      ];
+      // course.save();
+      // const updatedCourse = await course.save();
+      // res.status(200).json({
+      //   success: true,
+      //   data: updatedCourse,
+      // });
+    }
+    // await course.save();
+    // res.status(201).json({
+    //   success: true,
+    //   data: course,
+    // });
+  } else {
+    res.status(400).json({
+      success: false,
+      message: "Chapter not added Successfully",
     });
   }
 });
@@ -237,6 +336,7 @@ const payUsingRazorpay = async (req, res) => {
 
 module.exports = {
   createCourse,
+  createChapter,
   getAllCourses,
   getAllFrontendCourses,
   getAllBackendCourses,

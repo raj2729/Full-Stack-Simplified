@@ -13,6 +13,7 @@ const {
   getAllOtherCourses,
   getAllCoursesOfUser,
   getAllCoursesOfInstructor,
+  createChapter,
 } = require("../controllers/courseControllers");
 
 const {
@@ -24,6 +25,9 @@ const router = express.Router();
 
 // Create new course - Only for instructors
 router.route("/createCourse").post(createCourse);
+
+// Create new chapter - Only for instructors
+router.route("/createChapter/:id").put(createChapter);
 
 // Get all courses
 router.route("/allCourses").get(getAllCourses);

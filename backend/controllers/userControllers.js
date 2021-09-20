@@ -115,15 +115,19 @@ const userLogin = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
-    if(user.isAdmin===false && user.isInstructor===false) {
+    if (user.isAdmin === false) {
       res.status(200).json({
         success: true,
         data: user,
         token: generateToken(user._id),
       });
     } else {
-      res.status(404);
-      throw new Error("Please visit Admin/Instructor page.");      
+      res.status(404).json({
+        success: false,
+        message: "Please visit Admin page.",
+      });
+      // res.status(404);
+      // throw new Error("Please visit Admin/Instructor page.");
     }
   } else {
     res.status(404);

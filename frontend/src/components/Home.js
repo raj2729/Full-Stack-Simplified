@@ -158,41 +158,17 @@ function Home({ history }) {
   const { userInfo } = userLogin;
 
   const frontendCourses = useSelector((state) => state.frontendCourses);
-  const {
-    loading: frontendLoading,
-    error: frontendError,
-    frontendCourseList,
-  } = frontendCourses;
+  const { frontendCourseList } = frontendCourses;
   const backendCourses = useSelector((state) => state.backendCourses);
-  const {
-    loading: backendLoading,
-    error: backendError,
-    backendCourseList,
-  } = backendCourses;
+  const { backendCourseList } = backendCourses;
   const designingCourses = useSelector((state) => state.designingCourses);
-  const {
-    loading: designingLoading,
-    error: designingError,
-    designingCourseList,
-  } = designingCourses;
+  const { designingCourseList } = designingCourses;
   const databaseCourses = useSelector((state) => state.databaseCourses);
-  const {
-    loading: databaseLoading,
-    error: databaseError,
-    databaseCourseList,
-  } = databaseCourses;
+  const { databaseCourseList } = databaseCourses;
   const fullstackCourses = useSelector((state) => state.fullstackCourses);
-  const {
-    loading: fullstackLoading,
-    error: fullstackError,
-    fullstackCourseList,
-  } = fullstackCourses;
+  const { fullstackCourseList } = fullstackCourses;
   const otherCourses = useSelector((state) => state.otherCourses);
-  const {
-    loading: otherLoading,
-    error: otherError,
-    otherCourseList,
-  } = otherCourses;
+  const { otherCourseList } = otherCourses;
 
   const dispatch = useDispatch();
 

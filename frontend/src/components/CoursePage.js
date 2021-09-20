@@ -25,6 +25,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import TextField from "@material-ui/core/TextField";
 
 //
+import { Box } from "@material-ui/core";
+
 import quiz from "../assets/quiz.png";
 import Carousel from "react-material-ui-carousel";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -33,6 +35,7 @@ import { Link } from "react-router-dom";
 import VideoPlayer from "react-video-js-player";
 import Modal from "@material-ui/core/Modal";
 import Container from "@material-ui/core/Container";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 //
 
@@ -134,6 +137,32 @@ const useStyles = makeStyles((theme) => ({
   //  ----------
 }));
 
+// Button to add chapter
+const useStyles1 = makeStyles((theme) => ({
+  field: {
+    marginTop: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 20,
+    display: "block",
+  },
+  root: {
+    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 100%)",
+    borderRadius: 3,
+    border: 0,
+    color: "white",
+    height: 48,
+    padding: "0 30px",
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  },
+  label: {
+    textTransform: "capitalize",
+  },
+  detailTitle: {
+    textDecoration: "underline",
+  },
+}));
+
 const loadRazorPay = async () => {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -163,6 +192,9 @@ function CoursePage({ history, match }) {
   };
   // ------------
   const classes = useStyles();
+
+  // Add chapter button
+  const classes1 = useStyles1();
 
   const dispatch = useDispatch();
   // const [isEnrolled, setIsEnrolled] = useState(false);
@@ -543,6 +575,32 @@ function CoursePage({ history, match }) {
               </Grid>
             ))}
           </Grid>
+          <Box m={2} pt={3} />
+          {userInfo ? (
+            userInfo.data.isInstructor === true &&
+            userInfo.data._id === course.data.instructorId ? (
+              <Link
+                to={`/createChapter/${course.data._id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Button
+                  type="submit"
+                  size="large"
+                  classes={{
+                    root: classes1.root,
+                    label: classes1.label,
+                  }}
+                  startIcon={<AddCircleIcon />}
+                >
+                  Add Course
+                </Button>
+              </Link>
+            ) : (
+              <p></p>
+            )
+          ) : (
+            <p></p>
+          )}
         </div>
         <br />
         <br />

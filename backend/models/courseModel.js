@@ -59,6 +59,7 @@ const courseSchema = mongoose.Schema(
         },
         chapterStudyMaterial: {
           type: String,
+          default: "Self study",
         },
       },
     ],
