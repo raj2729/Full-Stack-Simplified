@@ -255,6 +255,13 @@ const Header = () => {
                     <MenuItem>My Courses</MenuItem>
                   </Link>
                 )}
+                <Divider />
+                <Link
+                  to={`/contactForm`}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <MenuItem>Contact us</MenuItem>
+                </Link>
 
                 <Divider />
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -316,15 +323,31 @@ const Header = () => {
             </ListItem>
           </List>
         </Link>
+        {userInfo ? (
+          <Link
+            to={`/mycourses/${userInfo.data._id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <List>
+              <ListItem button disabled={userInfo === null} key="My Courses">
+                <ListItemIcon>
+                  <CastForEducationIcon />
+                </ListItemIcon>
+                <ListItemText primary="My Courses" />
+              </ListItem>
+            </List>
+          </Link>
+        ) : (
+          <List>
+            <ListItem button disabled={userInfo === null} key="My Courses">
+              <ListItemIcon>
+                <CastForEducationIcon />
+              </ListItemIcon>
+              <ListItemText primary="My Courses" />
+            </ListItem>
+          </List>
+        )}
 
-        <List>
-          <ListItem button disabled={userInfo === null} key="My Courses">
-            <ListItemIcon>
-              <CastForEducationIcon />
-            </ListItemIcon>
-            <ListItemText primary="My Courses" />
-          </ListItem>
-        </List>
         {userInfo ? (
           <Link
             to={`/assignments/${userInfo.data._id}`}
@@ -344,23 +367,19 @@ const Header = () => {
             </List>
           </Link>
         ) : (
-          <Link
-            to={`/assignments`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <List>
-              <ListItem
-                button
-                disabled={userInfo === null}
-                key="My Assignments"
-              >
-                <ListItemIcon>
-                  <CastForEducationIcon />
-                </ListItemIcon>
-                <ListItemText primary="My Assignments" />
-              </ListItem>
-            </List>
-          </Link>
+          // <Link
+          //   to={`/assignments`}
+          //   style={{ textDecoration: "none", color: "black" }}
+          // >
+          <List>
+            <ListItem button disabled={userInfo === null} key="My Assignments">
+              <ListItemIcon>
+                <CastForEducationIcon />
+              </ListItemIcon>
+              <ListItemText primary="My Assignments" />
+            </ListItem>
+          </List>
+          // </Link>
         )}
 
         <List>
@@ -370,9 +389,22 @@ const Header = () => {
             </ListItemIcon>
             <ListItemText primary="Profile" />
           </ListItem>
-          <Divider />
-          <Divider />
         </List>
+        <Link
+          to={"/contactForm"}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <List>
+            <ListItem button key="Contact Us">
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Contact Us" />
+            </ListItem>
+          </List>
+        </Link>
+        <Divider />
+        <Divider />
       </Drawer>
       {/* <div>
         <Button variant="outlined" color="primary">
