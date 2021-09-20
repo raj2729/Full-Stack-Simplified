@@ -7,6 +7,8 @@ import SignUp from "./components/SignUp";
 import Home from "./components/Home";
 import CoursePage from "./components/CoursePage";
 import Assignments from "./components/Assignments";
+import AdminLogin from "./components/AdminLogin";
+import AdminDashboard from "./components/AdminDashboard";
 import MyCoursesUser from "./components/MyCoursesUser";
 import ContactForm from "./components/ContactUs";
 import MyCoursesInstr from "./components/MyCoursesInstr";
@@ -21,6 +23,8 @@ function App() {
       <Route path="/signup" component={SignUp} exact></Route>
       <Route path="/course/:id" component={CoursePage} exact></Route>
       <Route path="/assignments/:id" component={Assignments} exact></Route>
+      <Route path="/admin/login" component={AdminLogin} exact></Route>
+      <Route path="/admin/access" component={AdminDashboard} exact></Route>
       <Route path="/mycourses/:id" component={MyCoursesUser} exact></Route>
       <Route path="/contactForm" component={ContactForm} exact></Route>
       <Route

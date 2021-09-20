@@ -42,6 +42,7 @@ const adminProtect = asyncHandler(async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
+      // console.log(token)
       const decode = jwt.verify(token, process.env.JWT_KEY);
 
       // decode has _id and creation time of the user whose this token is
