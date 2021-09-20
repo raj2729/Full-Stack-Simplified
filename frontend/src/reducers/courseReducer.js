@@ -23,6 +23,12 @@ import {
   OTHER_COURSES_LIST_REQUEST,
   OTHER_COURSES_LIST_SUCCESS,
   OTHER_COURSES_LIST_FAILS,
+  ALL_USER_COURSES_LIST_SUCCESS,
+  ALL_USER_COURSES_LIST_FAILS,
+  ALL_USER_COURSES_LIST_REQUEST,
+  ALL_INSTRUCTOR_COURSES_REQUEST,
+  ALL_INSTRUCTOR_COURSES_SUCCESS,
+  ALL_INSTRUCTOR_COURSES_FAILS,
 } from "../constants/courseConstants";
 
 // Partiicular course details
@@ -49,6 +55,22 @@ export const allUserCoursesReducer = (state = { courses: [] }, action) => {
     case ALL_USER_COURSES_SUCCESS:
       return { loading: false, courses: action.payload };
     case ALL_USER_COURSES_FAILS:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const allInstructorCoursesReducer = (
+  state = { instructorCourses: [] },
+  action
+) => {
+  switch (action.type) {
+    case ALL_INSTRUCTOR_COURSES_REQUEST:
+      return { ...state, loading: true, instructorCourses: [] };
+    case ALL_INSTRUCTOR_COURSES_SUCCESS:
+      return { loading: false, instructorCourses: action.payload };
+    case ALL_INSTRUCTOR_COURSES_FAILS:
       return { loading: false, error: action.payload };
     default:
       return state;
@@ -150,3 +172,19 @@ export const otherCourseListReducer = (
       return state;
   }
 };
+
+// export const allUserCoursesListReducer = (
+//   state = { allUserCoursesList: [] },
+//   action
+// ) => {
+//   switch (action.type) {
+//     case ALL_USER_COURSES_LIST_REQUEST:
+//       return { ...state, loading: true, allUserCoursesList: [] };
+//     case ALL_USER_COURSES_LIST_SUCCESS:
+//       return { loading: false, allUserCoursesList: action.payload };
+//     case ALL_USER_COURSES_LIST_FAILS:
+//       return { loading: false, error: action.payload };
+//     default:
+//       return state;
+//   }
+// };

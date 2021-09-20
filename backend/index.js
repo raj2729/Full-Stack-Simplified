@@ -35,8 +35,9 @@ app.post("/getCertificate/:name/:course", (req, res) => {
   // res.download("output.pdf");
   console.log(req.params.name, req.params.course);
   generatePDF(req.params.name, req.params.course);
-  res.download("output.pdf");
+  res.download("CertificateOfCompletion.pdf");
 });
+// generatePDF("Raj Sanghavi", "HTML COURSE");
 
 app.use("/user", userRoutes);
 app.use("/course", courseRoutes);

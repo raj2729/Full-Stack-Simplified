@@ -9,6 +9,11 @@ import CoursePage from "./components/CoursePage";
 import Assignments from "./components/Assignments";
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard";
+import MyCoursesUser from "./components/MyCoursesUser";
+import ContactForm from "./components/ContactUs";
+import MyCoursesInstr from "./components/MyCoursesInstr";
+import CreateCourse from "./components/CreateCourse";
+import CreateChapter from "./components/CreateChapter";
 
 function App() {
   return (
@@ -20,6 +25,15 @@ function App() {
       <Route path="/assignments/:id" component={Assignments} exact></Route>
       <Route path="/admin/login" component={AdminLogin} exact></Route>
       <Route path="/admin/access" component={AdminDashboard} exact></Route>
+      <Route path="/mycourses/:id" component={MyCoursesUser} exact></Route>
+      <Route path="/contactForm" component={ContactForm} exact></Route>
+      <Route
+        path="/instructorcourses/:id"
+        component={MyCoursesInstr}
+        exact
+      ></Route>
+      <Route path="/createCourse/" component={CreateCourse} exact></Route>
+      <Route path="/createChapter/:id" component={CreateChapter} exact></Route>
     </BrowserRouter>
   );
 }

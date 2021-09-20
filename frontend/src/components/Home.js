@@ -24,6 +24,7 @@ import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
+  allInstructorCoursesAction,
   allUserCoursesAction,
   backendCourseListAction,
   databaseCourseListAction,
@@ -33,6 +34,7 @@ import {
   otherCourseListAction,
 } from "../actions/courseActions";
 import { isUserEnrolledReset } from "../actions/userActions";
+import ContactForm from "./ContactUs";
 
 const homePageTheme = createTheme({
   palette: {
@@ -197,6 +199,7 @@ function Home({ history }) {
   useEffect(() => {
     if (userInfo) dispatch(allUserCoursesAction(userInfo.data._id));
     dispatch(isUserEnrolledReset());
+    dispatch(allInstructorCoursesAction(userInfo.data._id));
     dispatch(frontendCourseListAction());
     dispatch(backendCourseListAction());
     dispatch(designingCourseListAction());
@@ -293,6 +296,7 @@ function Home({ history }) {
             ))}
           </Container>
         </main>
+        <ContactForm />
         <footer className={classes.footer}>
           {/* Footer */}
           <Footer />

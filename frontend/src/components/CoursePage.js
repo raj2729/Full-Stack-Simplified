@@ -29,6 +29,11 @@ import quiz from "../assets/quiz.png";
 import Carousel from "react-material-ui-carousel";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { Link } from "react-router-dom";
+
+import VideoPlayer from "react-video-js-player";
+import Modal from "@material-ui/core/Modal";
+import Container from "@material-ui/core/Container";
+
 //
 
 import {
@@ -46,6 +51,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Header from "./Header";
 import { isUserEnrolled } from "../actions/userActions";
 import { createAssignment } from "../actions/assignmentActions";
+// import PlayLecture from "./PlayLecture";
 
 const homePageTheme = createTheme({
   palette: {
@@ -94,15 +100,38 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
-
-const useStylesTextField = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: "25ch",
     },
   },
+  //  ---------- MODAL
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  details: {
+    alignItems: "center",
+  },
+  detailStudyMaterial: {
+    alignItems: "left",
+  },
+  column2: {
+    flexBasis: "100%",
+  },
+  column1: {
+    flexBasis: "80%",
+  },
+  column: {
+    flexBasis: "20%",
+  },
+  helper: {
+    borderLeft: `2px solid ${theme.palette.divider}`,
+    padding: theme.spacing(1, 2),
+  },
+  //  ----------
 }));
 
 const loadRazorPay = async () => {
@@ -122,7 +151,18 @@ const loadRazorPay = async () => {
 };
 
 function CoursePage({ history, match }) {
-  const classes = useStylesTextField();
+  // ------------ MODAL
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalOpen(false);
+  };
+  // ------------
+  const classes = useStyles();
 
   const dispatch = useDispatch();
   // const [isEnrolled, setIsEnrolled] = useState(false);
@@ -297,81 +337,66 @@ function CoursePage({ history, match }) {
           <br />
 
           <span className="big-btn">
-            {
-              isEnrolled && isEnrolled.success === true ? (
-                <Collapse in={open}>
-                  <Alert
-                    action={
-                      <IconButton
-                        aria-label="close"
-                        color="inherit"
-                        size="small"
-                        onClick={() => {
-                          setOpen(false);
-                        }}
-                      >
-                        <CloseIcon fontSize="inherit" />
-                      </IconButton>
-                    }
-                  >
-                    You have successfully enrolled in the course. Go to my
-                    course to access the course.
-                  </Alert>
-                </Collapse>
-              ) : isUserEnrolledInCourseFromAllCourses === true ? (
-                <Collapse in={open}>
-                  <Alert
-                    action={
-                      <IconButton
-                        aria-label="close"
-                        color="inherit"
-                        size="small"
-                        onClick={() => {
-                          setOpen(false);
-                        }}
-                      >
-                        <CloseIcon fontSize="inherit" />
-                      </IconButton>
-                    }
-                  >
-                    You have successfully enrolled in the course. Go to my
-                    course to access the course.
-                  </Alert>
-                </Collapse>
-              ) : userInfo ? (
-                <Button
-                  className="btnbtn"
-                  variant="contained"
-                  onClick={displayRazorPay}
+            {isEnrolled && isEnrolled.success === true ? (
+              <Collapse in={open}>
+                <Alert
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
                 >
-                  <span className="btn-text">
-                    Enroll Now
-                    <br />
-                    for Rs.{course.data.price}
-                    {/* for Rs.699 */}
-                  </span>
+                  You have successfully enrolled in the course. Go to my course
+                  to access the course.
+                </Alert>
+              </Collapse>
+            ) : isUserEnrolledInCourseFromAllCourses === true ? (
+              <Collapse in={open}>
+                <Alert
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                >
+                  You have successfully enrolled in the course. Go to my course
+                  to access the course.
+                </Alert>
+              </Collapse>
+            ) : userInfo ? (
+              <Button
+                className="btnbtn"
+                variant="contained"
+                onClick={displayRazorPay}
+              >
+                <span className="btn-text">
+                  Enroll Now
+                  <br />
+                  for Rs.{course.data.price}
+                  {/* for Rs.699 */}
+                </span>
+              </Button>
+            ) : (
+              <Link to={"/signin"} style={{ textDecoration: "none" }}>
+                <Button className="btnbtn" variant="contained">
+                  <span className="btn-text">Login to enroll course</span>
                 </Button>
-              ) : (
-                <Link to={"/signin"} style={{ textDecoration: "none" }}>
-                  <Button className="btnbtn" variant="contained">
-                    <span className="btn-text">Login to enroll course</span>
-                  </Button>
-                </Link>
-              )
-
-              // <Button
-              //   className="btnbtn"
-              //   variant="contained"
-              //   onClick={displayRazorPay}
-              // >
-              //   <span className="btn-text">
-              //     Enroll Now
-              //     <br />
-              //     for Rs.{course.data.price}
-              //     {/* for Rs.699 */}
-              //   </span>
-              // </Button>
-            }
+              </Link>
+            )}
           </span>
         </div>
         <div className="half-div">
@@ -446,11 +471,75 @@ function CoursePage({ history, match }) {
           <br />
           <Grid container spacing={2}>
             {course.data.chapters.map((chapter) => (
-              <Grid item xs={12} sm={6} className="course-item">
-                <p className="">
-                  {chapter.chapterNumber}.&nbsp;
-                  {chapter.chapterName}
-                </p>
+              <Grid
+                item
+                xs={15}
+                sm={15}
+                className="course-item"
+                style={{ width: "100%" }}
+              >
+                <Accordion style={{ boxShadow: "none" }}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    {chapter.chapterNumber}.&nbsp;
+                    {chapter.chapterName}
+                  </AccordionSummary>
+
+                  <AccordionDetails className={classes.details}>
+                    <div className={classes.column1}>
+                      <strong>Description:</strong>{" "}
+                      {chapter.chapterVideoDescription}
+                    </div>
+                    <div className={classes.column}>
+                      <Button
+                        disabled={
+                          userInfo === null ||
+                          isUserEnrolledInCourseFromAllCourses === false
+                        }
+                        style={
+                          userInfo === null ||
+                          isUserEnrolledInCourseFromAllCourses === false
+                            ? {
+                                color: "black",
+                                backgroundColor: "grey",
+                              }
+                            : {
+                                color: "#631c98",
+                                backgroundColor: "rgb(225 225 255)",
+                              }
+                        }
+                        variant="contained"
+                        onClick={handleOpen}
+                      >
+                        {userInfo === null ||
+                        isUserEnrolledInCourseFromAllCourses === false
+                          ? "Enroll course first"
+                          : "View Chapter"}
+                      </Button>
+                      <Modal
+                        className={classes.modal}
+                        open={modalOpen}
+                        onClose={handleClose}
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                      >
+                        <VideoPlayer
+                          src="https://res.cloudinary.com/dizvyn9b5/video/upload/v1631600691/sgf6ftvyhfrodkgau5lm.mp4"
+                          height="500%"
+                        />
+                      </Modal>
+                    </div>
+                  </AccordionDetails>
+                  <AccordionDetails style={{ alignItems: "left" }}>
+                    <div className={classes.column2}>
+                      <strong>Study Materials:</strong>{" "}
+                      {chapter.chapterStudyMaterial}
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
               </Grid>
             ))}
           </Grid>

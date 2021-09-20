@@ -1,40 +1,53 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import { Button } from '@material-ui/core';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import CastForEducationIcon from '@material-ui/icons/CastForEducation';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import HomeIcon from '@material-ui/icons/Home';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { Box } from '@material-ui/core';
+import React, { useEffect } from "react";
+import clsx from "clsx";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
+import { Button } from "@material-ui/core";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { Box } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { CircularProgress } from "@material-ui/core";
+
+import { createTheme, ThemeProvider } from "@material-ui/core";
+
+import { allInstructorCoursesAction } from "../actions/courseActions";
+import { Link } from "react-router-dom";
+
+// Importing Header
+import Header from "./Header";
+
+const homePageTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#809FFF",
+    },
+    secondary: {
+      main: "#000000",
+    },
+    text: {
+      primary: "#000000",
+      secondary: "#FEFFFF",
+    },
+  },
+});
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -42,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -51,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   hide: {
-    display: 'none',
+    display: "none",
   },
   drawer: {
     width: drawerWidth,
@@ -61,46 +74,43 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
   },
   contentShift: {
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
   },
-  card:{
+  card: {
     maxWidth: 345,
   },
-  media:{
-    height: 140, 
+  media: {
+    height: 140,
   },
   button: {
     margin: theme.spacing(1),
-   
-      justifyContent:"center",
-   
-}
-}
-)
-);
 
-function App() {
+    justifyContent: "center",
+  },
+}));
+
+function MyCoursesInstr({ match }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -113,113 +123,78 @@ function App() {
     setOpen(false);
   };
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const allInstructorCourse = useSelector((state) => state.allInstructorCourse);
+  const { loading, instructorCourses } = allInstructorCourse;
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(allInstructorCoursesAction(match.params.id));
+  // });
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-           My Courses
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-              <ListItem button key='Home'>
-                <ListItemIcon><HomeIcon/>
-                </ListItemIcon>
-                <ListItemText primary='Home' />
-              </ListItem>
-            </List>
-            <List>
-              <ListItem button key='My Courses'>
-                <ListItemIcon><CastForEducationIcon />
-                </ListItemIcon>
-                <ListItemText primary='My Courses' />
-              </ListItem>
-            </List>
-            <List>
-              <ListItem button key='Profile'>
-                <ListItemIcon><AccountCircleIcon/>
-                </ListItemIcon>
-                <ListItemText primary='Profile' />
-              </ListItem>
-            </List>
-        <Divider />
-     
-      </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
-     <div className={classes.drawerHeader} />
-     <Box textAlign='center'>
-      <Button
-        variant="contained"
-        color="secondary"
-        size="large"
-     
-        className={classes.button}
-        startIcon={<AddCircleIcon />}
-      >
-        Add New Course
-      </Button>
-    
-</Box>
+      <ThemeProvider theme={homePageTheme}>
+        <Header />
+      </ThemeProvider>
 
-      <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image="/assets/mern.jpg"
-                 title="MERN stack"      />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-           MERN Stack
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="large" color="primary">
-          Go To Course
-        </Button>
-        
-      </CardActions>
-    </Card>
-     </main>
+      {loading === true ? (
+        <CircularProgress />
+      ) : (
+        <main
+        // className={clsx(classes.content, {
+        //   [classes.contentShift]: open,
+        // })}
+        >
+          <div className={classes.drawerHeader} />
+          <Box textAlign="center">
+            <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              className={classes.button}
+              startIcon={<AddCircleIcon />}
+            >
+              Add New Course
+            </Button>
+          </Box>
+          {instructorCourses.data.map((course) => (
+            <>
+              <Card className={classes.card}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={course.image}
+                    title="MERN stack"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {course.name}
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                      {course.description}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Link
+                    to={`/course/${course._id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button size="large" color="primary">
+                      Go To Course
+                    </Button>
+                  </Link>
+                </CardActions>
+              </Card>
+            </>
+          ))}
+        </main>
+      )}
     </div>
   );
 }
-export default App;
+export default MyCoursesInstr;
