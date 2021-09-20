@@ -11,6 +11,8 @@ const orderRoutes = require("./routes/orderRoutes");
 const discussRoutes = require("./routes/discussRoutes");
 const testimonialRoutes = require("./routes/testimonialRoutes");
 const assignmentRoutes = require("./routes/assignmentRoutes");
+const adminRoutes = require("./routes/adminRoutes")
+const instructorRoutes = require("./routes/instructorRoutes")
 
 dotenv.config();
 
@@ -43,6 +45,9 @@ app.use("/order", orderRoutes);
 app.use("/discuss", discussRoutes);
 app.use("/testimonial", testimonialRoutes);
 app.use("/assignment", assignmentRoutes);
+app.use("/admin",adminRoutes)
+app.use("/instructor",instructorRoutes)
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

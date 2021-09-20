@@ -11,6 +11,7 @@ LIST OF CONTROLLERS
 4. Get all students enrolled in a course
 5. Count of students enrolled in a particular course
 6. Check if user is enrolled in the course or not
+7. Get all courses of a instructor
 */
 
 // 1. Create a new order
@@ -62,7 +63,7 @@ const createOrder = asyncHandler(async (req, res) => {
 
 // 2. Get all orders - Only Admin
 const getAllOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate("userId courseId");
+  const orders = await Order.find({}).populate([{path:'userId', select:'name'}, {path:'courseId', select:'_id name instructorId price'}])  ;
   res.status(200).json({
     success: true,
     data: orders,
@@ -115,6 +116,7 @@ const checkIfUserIsEnrolledInCourse = asyncHandler(async (req, res) => {
     });
   }
 });
+
 
 module.exports = {
   createOrder,
