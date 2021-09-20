@@ -199,7 +199,7 @@ function Home({ history }) {
   useEffect(() => {
     if (userInfo) dispatch(allUserCoursesAction(userInfo.data._id));
     dispatch(isUserEnrolledReset());
-    dispatch(allInstructorCoursesAction(userInfo.data._id));
+    if (userInfo) dispatch(allInstructorCoursesAction(userInfo.data._id));
     dispatch(frontendCourseListAction());
     dispatch(backendCourseListAction());
     dispatch(designingCourseListAction());

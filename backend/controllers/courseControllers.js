@@ -26,6 +26,7 @@ LIST OF CONTROLLERS
 // Create a new course
 const createCourse = asyncHandler(async (req, res) => {
   const {
+    instructorId,
     name,
     tagline,
     type,
@@ -36,7 +37,7 @@ const createCourse = asyncHandler(async (req, res) => {
     chapters,
     image,
   } = req.body;
-  const instructorId = req.user._id;
+  // const instructorId = req.user._id;
 
   const course = await Course.create({
     instructorId,
@@ -53,22 +54,26 @@ const createCourse = asyncHandler(async (req, res) => {
 
   if (course) {
     res.status(201).json({
-      _id: course._id,
-      instructorId: course.instructorId,
-      name: course.name,
-      tagline: course.tagline,
-      type: course.type,
-      description: course.description,
-      assignmentQuestion: course.assignmentQuestion,
-      price: course.price,
-      advantages: course.advantages,
-      chapters: course.chapters,
-      image: course.image,
-      message: "Course Created Successfully",
+      success: true,
+      data: course,
+      // _id: course._id,
+      // instructorId: course.instructorId,
+      // name: course.name,
+      // tagline: course.tagline,
+      // type: course.type,
+      // description: course.description,
+      // assignmentQuestion: course.assignmentQuestion,
+      // price: course.price,
+      // advantages: course.advantages,
+      // chapters: course.chapters,
+      // image: course.image,
+      // message: "Course Created Successfully",
     });
   } else {
-    res.status(404);
-    throw new Error("Course not created");
+    res.status(400).json({
+      success: false,
+      message: "Course not Created Successfully",
+    });
   }
 });
 

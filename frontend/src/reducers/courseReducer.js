@@ -23,12 +23,12 @@ import {
   OTHER_COURSES_LIST_REQUEST,
   OTHER_COURSES_LIST_SUCCESS,
   OTHER_COURSES_LIST_FAILS,
-  ALL_USER_COURSES_LIST_SUCCESS,
-  ALL_USER_COURSES_LIST_FAILS,
-  ALL_USER_COURSES_LIST_REQUEST,
   ALL_INSTRUCTOR_COURSES_REQUEST,
   ALL_INSTRUCTOR_COURSES_SUCCESS,
   ALL_INSTRUCTOR_COURSES_FAILS,
+  COURSE_CREATE_REQUEST,
+  COURSE_CREATE_SUCCESS,
+  COURSE_CREATE_FAILS,
 } from "../constants/courseConstants";
 
 // Partiicular course details
@@ -173,18 +173,15 @@ export const otherCourseListReducer = (
   }
 };
 
-// export const allUserCoursesListReducer = (
-//   state = { allUserCoursesList: [] },
-//   action
-// ) => {
-//   switch (action.type) {
-//     case ALL_USER_COURSES_LIST_REQUEST:
-//       return { ...state, loading: true, allUserCoursesList: [] };
-//     case ALL_USER_COURSES_LIST_SUCCESS:
-//       return { loading: false, allUserCoursesList: action.payload };
-//     case ALL_USER_COURSES_LIST_FAILS:
-//       return { loading: false, error: action.payload };
-//     default:
-//       return state;
-//   }
-// };
+export const createCourseReducer = (state = {}, action) => {
+  switch (action.type) {
+    case COURSE_CREATE_REQUEST:
+      return { ...state, loading: true };
+    case COURSE_CREATE_SUCCESS:
+      return { ...state, loading: false, courseCreateInfo: action.payload };
+    case COURSE_CREATE_FAILS:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};

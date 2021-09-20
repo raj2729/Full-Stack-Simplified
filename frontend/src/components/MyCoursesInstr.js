@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MyCoursesInstr({ match }) {
+function MyCoursesInstr({ history, match }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -130,9 +130,9 @@ function MyCoursesInstr({ match }) {
   const { loading, instructorCourses } = allInstructorCourse;
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(allInstructorCoursesAction(match.params.id));
-  // });
+  useEffect(() => {
+    if (userInfo) dispatch(allInstructorCoursesAction(userInfo.data._id));
+  }, [dispatch, history]);
 
   return (
     <div className={classes.root}>
@@ -151,15 +151,17 @@ function MyCoursesInstr({ match }) {
         >
           <div className={classes.drawerHeader} />
           <Box textAlign="center">
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              className={classes.button}
-              startIcon={<AddCircleIcon />}
-            >
-              Add New Course
-            </Button>
+            <Link to={`/createCourse`} style={{ textDecoration: "none" }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                size="large"
+                className={classes.button}
+                startIcon={<AddCircleIcon />}
+              >
+                Add New Course
+              </Button>
+            </Link>
           </Box>
           {instructorCourses.data.map((course) => (
             <>

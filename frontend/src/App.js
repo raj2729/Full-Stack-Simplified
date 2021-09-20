@@ -28,7 +28,7 @@ function App() {
         component={MyCoursesInstr}
         exact
       ></Route>
-      <Route path="/createCourse/" component={CreateCourse} exact></Route>
+      <Route path="/createCourse" component={CreateCourse} exact></Route>
       <Route path="/createChapter/:id" component={CreateChapter} exact></Route>
     </BrowserRouter>
   );

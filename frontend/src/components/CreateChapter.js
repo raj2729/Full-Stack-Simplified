@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography'
-import Container from '@material-ui/core/Container';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { Box } from '@material-ui/core';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  
   field: {
     marginTop: 20,
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 20,
-    display: "block"
-
+    display: "block",
   },
   root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 100%)',
+    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 100%)",
     borderRadius: 3,
     border: 0,
-    color: 'white',
+    color: "white",
     height: 48,
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    padding: "0 30px",
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
   },
   label: {
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
   },
 });
 
@@ -41,32 +39,31 @@ const CreateChapter = () => {
   const [descriptionError, setDescriptionError] = useState(false);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setChpNameError(false)
-    setChpNoError(false)
-    setDescriptionError(false)
+    e.preventDefault();
+    setChpNameError(false);
+    setChpNoError(false);
+    setDescriptionError(false);
 
-    if (chpName == "")
-      setChpNameError(true)
-    if (chpNo == "")
-      setChpNoError(true)
-    if (description == "")
-      setDescriptionError(true)
-  }
+    if (chpName == "") setChpNameError(true);
+    if (chpNo == "") setChpNoError(true);
+    if (description == "") setDescriptionError(true);
+  };
 
   return (
     <Container>
-      <Typography 
+      <Typography
         variant="h5"
         gutterBottom
         color="textPrimaryary"
         marginTop="20"
         align="center"
         component="h2"
-      >Create a New Chapter </Typography>
+      >
+        Create a New Chapter{" "}
+      </Typography>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <TextField 
+        <TextField
           onChange={(e) => setChpNo(e.target.value)}
           className={classes.field}
           label="Chapter Number"
@@ -76,7 +73,7 @@ const CreateChapter = () => {
           required
           error={chpNoError}
         />
-        <TextField 
+        <TextField
           onChange={(e) => setChpName(e.target.value)}
           className={classes.field}
           label="Chapter Name"
@@ -86,7 +83,7 @@ const CreateChapter = () => {
           required
           error={chpNameError}
         />
-        <TextField 
+        <TextField
           onChange={(e) => setDescription(e.target.value)}
           className={classes.field}
           label="Description"
@@ -98,31 +95,25 @@ const CreateChapter = () => {
           required
           error={descriptionError}
         />
-            <Button
-      variant="contained"
-      component="label"
-    >
-      Upload File
-      <input
-        type="file"
-        hidden
-      />
-    </Button>
-    <Box m={2} pt={3} ></Box>
-       <Button
-        type="submit"
-        size="large"
-      classes={{
-        root: classes.root, 
-        label: classes.label, 
-      }}
-      startIcon={<AddCircleIcon />}
-    >
-      Add Chapter
-    </Button>
+        <Button variant="contained" component="label">
+          Upload File
+          <input type="file" hidden />
+        </Button>
+        <Box m={2} pt={3}></Box>
+        <Button
+          type="submit"
+          size="large"
+          classes={{
+            root: classes.root,
+            label: classes.label,
+          }}
+          startIcon={<AddCircleIcon />}
+        >
+          Add Chapter
+        </Button>
       </form>
     </Container>
   );
-}
+};
 
 export default CreateChapter;

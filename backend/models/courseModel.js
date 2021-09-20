@@ -30,13 +30,12 @@ const courseSchema = mongoose.Schema(
     price: {
       type: Number,
       required: true,
-      default: 0,
+      default: 1499,
     },
     advantages: [
       {
         advantageName: {
           type: String,
-          required: true,
         },
       },
     ],
@@ -44,19 +43,19 @@ const courseSchema = mongoose.Schema(
       {
         chapterNumber: {
           type: Number,
-          required: true,
+          // required: true,
         },
         chapterName: {
           type: String,
-          required: true,
+          // required: true,
         },
         chapterVideoLink: {
           type: String,
-          required: true,
+          // required: true,
         },
         chapterVideoDescription: {
           type: String,
-          required: true,
+          // required: true,
         },
         chapterStudyMaterial: {
           type: String,

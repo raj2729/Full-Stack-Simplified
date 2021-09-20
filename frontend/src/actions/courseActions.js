@@ -27,6 +27,9 @@ import {
   ALL_INSTRUCTOR_COURSES_REQUEST,
   ALL_INSTRUCTOR_COURSES_SUCCESS,
   ALL_INSTRUCTOR_COURSES_FAILS,
+  COURSE_CREATE_REQUEST,
+  COURSE_CREATE_SUCCESS,
+  COURSE_CREATE_FAILS,
 } from "../constants/courseConstants";
 
 export const oneCourseDetails = (id) => async (dispatch) => {
@@ -216,3 +219,48 @@ export const otherCourseListAction = () => async (dispatch) => {
     });
   }
 };
+
+export const createCourse =
+  (
+    instructorId,
+    name,
+    tagline,
+    type,
+    description,
+    assignmentQuestion,
+    publicIdd
+  ) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: COURSE_CREATE_REQUEST });
+
+      // to handle headers
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.post(
+        "/course/createCourse",
+        {
+          instructorId,
+          name,
+          tagline,
+          type,
+          description,
+          assignmentQuestion,
+          image: publicIdd,
+        },
+        config
+      );
+      dispatch({
+        type: COURSE_CREATE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: COURSE_CREATE_FAILS,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

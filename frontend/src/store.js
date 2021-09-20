@@ -26,6 +26,7 @@ import {
   otherCourseListReducer,
   allUserCoursesReducer,
   allInstructorCoursesReducer,
+  createCourseReducer,
 } from "./reducers/courseReducer";
 import { allUserCourses } from "./actions/courseActions";
 import { createAssignmentReducer } from "./reducers/assignmentReducers";
@@ -67,6 +68,7 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   isEnrolledInCourse: isUserEnrolledReducer,
   assignment: createAssignmentReducer,
+  createCourse: createCourseReducer,
   allUserCourses: allUserCoursesReducer,
   allInstructorCourse: allInstructorCoursesReducer,
   courseDetails: oneCourseDetailsReducer,

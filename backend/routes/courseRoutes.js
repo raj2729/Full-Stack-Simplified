@@ -15,12 +15,15 @@ const {
   getAllCoursesOfInstructor,
 } = require("../controllers/courseControllers");
 
-const { instructorProtect } = require("../middlewares/protectedRoutes");
+const {
+  protect,
+  instructorProtect,
+} = require("../middlewares/protectedRoutes");
 
 const router = express.Router();
 
 // Create new course - Only for instructors
-router.route("/createCourse").post(instructorProtect, createCourse);
+router.route("/createCourse").post(createCourse);
 
 // Get all courses
 router.route("/allCourses").get(getAllCourses);
