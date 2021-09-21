@@ -25,6 +25,39 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    profilePicture: {
+      type: String,
+      // required: true,
+      default:
+        "https://res.cloudinary.com/dizvyn9b5/image/upload/v1632241265/sjddbfkcij5tz8vokcmo.jpg",
+    },
+    githubLink: {
+      type: String,
+      // required: true,
+      default: "",
+    },
+    linkedInLink: {
+      type: String,
+      // required: true,
+      default: "",
+    },
+    mobileNumber: {
+      type: Number,
+      // required: true,
+      default: 0,
+    },
+    domains: [
+      {
+        skillName: {
+          type: String,
+        },
+      },
+    ],
+    description: {
+      type: String,
+      required: true,
+      default: "Describe yourself",
+    },
   },
   {
     timestamps: true,

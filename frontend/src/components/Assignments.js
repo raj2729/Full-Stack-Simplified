@@ -118,7 +118,7 @@ const Assignments = ({ history, match }) => {
 
   useEffect(() => {
     fetch(
-      "http://localhost:8080/assignment/getAssignmentsOfUser/613a39c9efca784f73c51932",
+      `http://localhost:8080/assignment/getAssignmentsOfUser/${match.params.id}`,
       { method: "GET" }
     )
       .then((response) =>
