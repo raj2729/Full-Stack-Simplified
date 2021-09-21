@@ -15,6 +15,7 @@ import MyCoursesInstr from "./components/MyCoursesInstr";
 import CreateCourse from "./components/CreateCourse";
 import CreateChapter from "./components/CreateChapter";
 import CareerForm from "./components/CareerForm";
+import ProfilePage from "./components/ProfilePage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
       <Route path="/mycourses/:id" component={MyCoursesUser} exact></Route>
       <Route path="/contactForm" component={ContactForm} exact></Route>
       <Route path="/careerForm" component={CareerForm} exact></Route>
+      <Route path="/myProfile" component={ProfilePage} exact></Route>
       <Route
         path="/instructorcourses/:id"
         component={MyCoursesInstr}

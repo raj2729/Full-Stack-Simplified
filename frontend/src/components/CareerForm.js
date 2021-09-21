@@ -342,7 +342,7 @@ const CareerForm = ({ history, match }) => {
             startIcon={<AddCircleIcon />}
             onClick={careerSubmitHandler}
           >
-            Add Chapter
+            Submit
           </Button>
         </form>
       </Container>
