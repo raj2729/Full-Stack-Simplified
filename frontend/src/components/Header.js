@@ -403,6 +403,19 @@ const Header = () => {
             </ListItem>
           </List>
         </Link>
+        <Link
+          to={"/careerForm"}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <List>
+            <ListItem button key="Career Oppotunities">
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Career Oppotunities" />
+            </ListItem>
+          </List>
+        </Link>
         <Divider />
         <Divider />
       </Drawer>

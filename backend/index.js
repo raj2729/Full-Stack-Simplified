@@ -14,6 +14,7 @@ const assignmentRoutes = require("./routes/assignmentRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const instructorRoutes = require("./routes/instructorRoutes");
 const contactFormRoute = require("./routes/contactFormRoutes");
+const careerFormRoute = require("./routes/careerFormRoutes");
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use("/assignment", assignmentRoutes);
 app.use("/admin", adminRoutes);
 app.use("/instructor", instructorRoutes);
 app.use("/contact", contactFormRoute);
+app.use("/career", careerFormRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -104,7 +104,7 @@ function MyCoursesUser() {
   const [open, setOpen] = React.useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  // const { userInfo } = userLogin;
 
   const allUserCourses = useSelector((state) => state.allUserCourses);
   const { courses } = allUserCourses;

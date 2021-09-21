@@ -14,6 +14,7 @@ import ContactForm from "./components/ContactUs";
 import MyCoursesInstr from "./components/MyCoursesInstr";
 import CreateCourse from "./components/CreateCourse";
 import CreateChapter from "./components/CreateChapter";
+import CareerForm from "./components/CareerForm";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <Route path="/admin/access" component={AdminDashboard} exact></Route>
       <Route path="/mycourses/:id" component={MyCoursesUser} exact></Route>
       <Route path="/contactForm" component={ContactForm} exact></Route>
+      <Route path="/careerForm" component={CareerForm} exact></Route>
       <Route
         path="/instructorcourses/:id"
         component={MyCoursesInstr}
