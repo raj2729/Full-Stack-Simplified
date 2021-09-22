@@ -37,6 +37,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
 
+import { useHistory } from "react-router-dom";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -166,6 +168,8 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
+  let history = useHistory();
+
   //   useEffect(() => {
   // if (userInfo) {
   //   history.push("/");
@@ -174,6 +178,7 @@ const Header = () => {
 
   const handleLogout = () => {
     if (userInfo) {
+      history.push("/");
       dispatch(logout());
     }
   };
