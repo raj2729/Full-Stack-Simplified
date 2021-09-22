@@ -63,6 +63,24 @@ const courseSchema = mongoose.Schema(
         },
       },
     ],
+    quiz: [
+      {
+        question: {
+          type: String,
+          required: true
+        },
+        correct: {
+          type: String,
+          required: true
+        },
+        incorrect: {
+          type: [{
+            type: String,
+            required: true
+          }]
+        }
+      }
+    ],
     image: {
       type: String,
       required: true,
