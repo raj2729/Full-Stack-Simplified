@@ -352,7 +352,6 @@ const Header = () => {
             </ListItem>
           </List>
         )}
-
         {userInfo ? (
           <Link
             to={`/assignments/${userInfo.data._id}`}
@@ -387,14 +386,19 @@ const Header = () => {
           // </Link>
         )}
 
-        <List>
-          <ListItem button disabled={userInfo === null} key="Profile">
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Profile" />
-          </ListItem>
-        </List>
+        <Link
+          to={"/myProfile"}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <List>
+            <ListItem button disabled={userInfo === null} key="Profile">
+              <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
+            </ListItem>
+          </List>
+        </Link>
         <Link
           to={"/contactForm"}
           style={{ textDecoration: "none", color: "black" }}
