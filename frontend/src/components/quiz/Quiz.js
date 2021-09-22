@@ -56,13 +56,10 @@ const Quiz = () => {
     const classes = useStyles();
     const [currentQuizStep, setCurrentQuizStep] = useState("start");
     const [quizData, setQuizData] = useState([]);
-    const data = [{ 'question': 'Which of this is an Animal?', 'correct': 'Cow', 'incorrect1': 'Owl', 'incorrect2': 'Crow', 'incorrect3': 'Parrot' },
-    { 'question': 'Which of this is NOT a bird?', 'correct': 'Cow', 'incorrect1': 'Owl', 'incorrect2': 'Crow', 'incorrect3': 'Parrot' },
-    { 'question': 'Which of this is an Animal?', 'correct': 'Cow', 'incorrect1': 'Owl', 'incorrect2': 'Crow', 'incorrect3': 'Parrot' }]
-
+    const data = [{ 'question': 'Which of this is an Animal?', 'correct': 'Cow', 'incorrect': ['Owl', 'Crow', 'Parrot'] },
+    { 'question': 'Which of this is NOT a bird?', 'correct': 'Cow', 'incorrect': ['Owl', 'Crow', 'Parrot'] }]
     const fetchQuizData = () => {
         const formattedCategory = data.map((cat) => {
-            cat.incorrect = [cat.incorrect1, cat.incorrect2, cat.incorrect3]
             const incorrectAnswersIndexes = cat.incorrect.length;
             const randomIndex = Math.round(
                 Math.random() * (incorrectAnswersIndexes - 0) + 0
